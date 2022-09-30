@@ -2,13 +2,15 @@ import React from 'react';
 import ProductCardStyles from './ProductCard.module.scss';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import {PROP_INGREDIENTS} from "../utils/propTypes";
+
 function ProductCard(props) {
 
   return (
       <div className={ProductCardStyles.card}>
         <img className={`${ProductCardStyles.card__img} mb-1`}
              src={props.product.image}
-             alt=''/>
+             alt={props.product.name}/>
         <div className={`${ProductCardStyles.card__price} mb-1`}>
           <p className={`${ProductCardStyles.card__text} text text_type_digits-default mr-1`}>{props.product.price}</p>
           <CurrencyIcon type="primary"/>
@@ -22,5 +24,9 @@ function ProductCard(props) {
       </div>
   );
 }
+
+ProductCard.propTypes = {
+  product: PROP_INGREDIENTS
+};
 
 export default ProductCard;

@@ -1,8 +1,8 @@
 import React from 'react';
-import BurgerIngredients from "../../componets/burgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../../componets/burgerConstructor/BurgerConstructor";
+import BurgerIngredients from "../../components/burger-ingredients/BurgerIngredients";
+import BurgerConstructor from "../../components/burger-constructor/BurgerConstructor";
 import ConstructorStyles from './Constructor.module.scss';
-import {PRODUCTS} from "../../componets/utils/data";
+import {PRODUCTS} from "../../components/utils/data";
 
 function Constructor() {
   return (

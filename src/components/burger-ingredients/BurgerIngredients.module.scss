@@ -7,22 +7,12 @@
   align-items: flex-start;
 }
 
+.tabs {
+  display: flex;
+  align-items: center;
+}
+
 .list {
   overflow: auto;
   max-height: calc(100vh - 337px);
-}
-
-.category {
-  margin-bottom: 40px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 32px 24px;
 }

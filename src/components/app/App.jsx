@@ -1,5 +1,5 @@
 import React from 'react';
-import AppHeader from "../appHeader/AppHeader";
+import AppHeader from "../app-header/AppHeader";
 import Constructor from "../../pages/constructor/Constructor";
 
 import AppStyles from './App.module.scss';
