@@ -1,0 +1,32 @@
+@use "./src/styles/variables";
+
+.card {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  &__img {
+    width: 100%;
+    max-width: 240px;
+    height: 120px;
+  }
+
+  &__text {
+    color: variables.$text;
+    text-align: center;
+  }
+
+  &__price {
+    display: flex;
+    align-items: center;
+  }
+
+  &__counter {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    z-index: 1;
+  }
+}
