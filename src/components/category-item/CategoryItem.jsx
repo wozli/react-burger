@@ -25,7 +25,7 @@ CategoryItem.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PROP_INGREDIENTS).isRequired
+    items: PropTypes.arrayOf(PROP_INGREDIENTS.isRequired).isRequired
   })
 };
 

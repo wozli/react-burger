@@ -9,7 +9,7 @@ import {PROP_INGREDIENTS} from "../utils/propTypes";
 import {TYPE_INGREDIENTS, NAME_INGREDIENTS} from "../utils/constants";
 
 function BurgerIngredients({ingredients}) {
-  const [current, setCurrent] = useState('bun');
+  const [current, setCurrent] = useState(TYPE_INGREDIENTS.BUN);
 
   const isFilteredIngredients = [
     {
@@ -65,7 +65,7 @@ function BurgerIngredients({ingredients}) {
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PROP_INGREDIENTS).isRequired
+  ingredients: PropTypes.arrayOf(PROP_INGREDIENTS.isRequired).isRequired
 };
 
 export default BurgerIngredients;

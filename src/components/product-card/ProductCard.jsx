@@ -26,7 +26,7 @@ function ProductCard(props) {
 }
 
 ProductCard.propTypes = {
-  product: PROP_INGREDIENTS
+  product: PROP_INGREDIENTS.isRequired
 };
 
 export default ProductCard;

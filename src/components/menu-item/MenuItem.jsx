@@ -21,7 +21,7 @@ function MenuItem({text, classes, children, active}) {
 }
 
 MenuItem.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.string.isRequired,
   classes: PropTypes.string,
   children: PropTypes.node,
   active: PropTypes.bool,

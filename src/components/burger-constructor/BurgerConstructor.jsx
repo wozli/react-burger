@@ -11,27 +11,28 @@ function BurgerConstructor({ingredients}) {
   const noBuns = ingredients.filter(ingredient => ingredient.type !== TYPE_INGREDIENTS.BUN);
 
   return (
-      <section className={`${BurgerConstructorStyles.section} pt-25`}>
-        <div className={`${BurgerConstructorStyles.list} custom-scroll mb-10 pr-3`}>
+      <section className={`${BurgerConstructorStyles.section} pt-15`}>
+        <div className={`${BurgerConstructorStyles.burger} mb-10`}>
 
-          <div className={BurgerConstructorStyles.item}>
+          <div className={`${BurgerConstructorStyles.item} ml-8`}>
             <ConstructorElement text={`${buns[0].name} (верх)`}
                                 type='top'
                                 isLocked={true}
                                 thumbnail={buns[0].image}
                                 price={buns[0].price}/>
           </div>
+          <div className={`${BurgerConstructorStyles.list} custom-scroll`}>
+            {noBuns.map((item) => (
+                <div key={item._id} className={BurgerConstructorStyles.item}>
+                  <div className='mr-2'><DragIcon type="primary"/></div>
+                  <ConstructorElement text={item.name}
+                                      thumbnail={item.image}
+                                      price={item.price}/>
+                </div>
+            ))}
+          </div>
 
-          {noBuns.map((item) => (
-              <div key={item._id} className={BurgerConstructorStyles.item}>
-                <div className='mr-2'><DragIcon type="primary"/></div>
-                <ConstructorElement text={item.name}
-                                    thumbnail={item.image}
-                                    price={item.price}/>
-              </div>
-          ))}
-
-          <div className={BurgerConstructorStyles.item}>
+          <div className={`${BurgerConstructorStyles.item} ml-8`}>
             <ConstructorElement text={`${buns[1].name} (низ)`}
                                 type='bottom'
                                 isLocked={true}
@@ -53,7 +54,7 @@ function BurgerConstructor({ingredients}) {
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PROP_INGREDIENTS).isRequired
+  ingredients: PropTypes.arrayOf(PROP_INGREDIENTS.isRequired).isRequired
 };
 
 export default BurgerConstructor;
