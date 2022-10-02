@@ -1,0 +1,11 @@
+@use "./src/styles/variables";
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+  cursor: pointer;
+  color: variables.$text;
+
+  text-decoration: none;
+}
