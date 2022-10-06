@@ -30,12 +30,23 @@
     z-index: 2000;
     min-width: 200px;
     min-height: 200px;
+    padding: 40px;
+    width: 640px;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+      padding-right: 30px;
   }
 
   &__close {
     cursor: pointer;
-    position: absolute;
-    right: 40px;
-    top: 50px;
+    margin-left: auto;
   }
 }

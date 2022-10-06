@@ -7,9 +7,6 @@ function IngredientDetails({ingredient}) {
 
   return (
       <div className={IngredientDetailsStyles.ingredient}>
-          <p className={`${IngredientDetailsStyles.ingredient__title} text text_type_main-large`}>
-            Детали ингредиента
-          </p>
         <img className={`${IngredientDetailsStyles.ingredient__img} mb-4`}
              src={ingredient.image_large}
              alt={ingredient.name}/>

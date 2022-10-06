@@ -74,7 +74,9 @@ function BurgerIngredients({ingredients}) {
           </div>
 
         </section>
-        <Modal isOpen={isToggle} onClose={modalClose}>
+        <Modal isOpen={isToggle}
+               onClose={modalClose}
+               title='Детали ингредиента'>
           <IngredientDetails ingredient={selectIngredient}/>
         </Modal>
       </>
