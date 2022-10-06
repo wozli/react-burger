@@ -5,7 +5,7 @@ import Title from "../common/title/Title";
 import ProductCard from "../product-card/ProductCard";
 import {PROP_INGREDIENTS} from "../utils/propTypes";
 
-function CategoryItem({category}) {
+function CategoryItem({category, selectIngredient}) {
   return (
       <div className={CategoryItemStyles.category}
            name={category.id}>
@@ -14,7 +14,9 @@ function CategoryItem({category}) {
                text={category.text}/>
         <div className={CategoryItemStyles.grid}>
           {category.items.map(product => (
-              <ProductCard key={product._id} product={product}/>
+              <ProductCard key={product._id}
+                           clickProduct={selectIngredient}
+                           product={product}/>
           ))}
         </div>
       </div>
@@ -26,7 +28,8 @@ CategoryItem.propTypes = {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PROP_INGREDIENTS.isRequired).isRequired
-  })
+  }),
+  selectIngredient: PropTypes.func.isRequired
 };
 
 export default CategoryItem;

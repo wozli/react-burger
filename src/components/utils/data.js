@@ -1,3 +1,9 @@
+export const ORDER = {
+  id: '034536',
+  text_status: 'Ваш заказ начали готовить',
+  text_description: 'Дождитесь готовности на орбитальной станции'
+}
+
 export const PRODUCTS = [
   {
     "_id": "60666c42cc7b410027a1a9b1",
@@ -209,4 +215,4 @@ export const PRODUCTS = [
     "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
     "__v": 0
   }
-]
+];

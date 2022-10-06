@@ -3,20 +3,21 @@ import ProductCardStyles from './ProductCard.module.scss';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import {PROP_INGREDIENTS} from "../utils/propTypes";
+import PropTypes from "prop-types";
 
-function ProductCard(props) {
+function ProductCard({product, clickProduct}) {
 
   return (
-      <div className={ProductCardStyles.card}>
+      <div className={ProductCardStyles.card} onClick={() => clickProduct(product)}>
         <img className={`${ProductCardStyles.card__img} mb-1`}
-             src={props.product.image}
-             alt={props.product.name}/>
+             src={product.image}
+             alt={product.name}/>
         <div className={`${ProductCardStyles.card__price} mb-1`}>
-          <p className={`${ProductCardStyles.card__text} text text_type_digits-default mr-1`}>{props.product.price}</p>
+          <p className={`${ProductCardStyles.card__text} text text_type_digits-default mr-1`}>{product.price}</p>
           <CurrencyIcon type="primary"/>
         </div>
         <p className={`${ProductCardStyles.card__text} text text_type_main-default`}>
-          {props.product.name}
+          {product.name}
         </p>
         <div className={ProductCardStyles.card__counter}>
           <Counter count={1} size="small"/>
@@ -26,7 +27,8 @@ function ProductCard(props) {
 }
 
 ProductCard.propTypes = {
-  product: PROP_INGREDIENTS.isRequired
+  product: PROP_INGREDIENTS.isRequired,
+  clickProduct: PropTypes.func.isRequired
 };
 
 export default ProductCard;

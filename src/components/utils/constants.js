@@ -9,3 +9,7 @@ export const NAME_INGREDIENTS = {
   SAUCE: 'Соусы',
   MAIN: 'Начинки',
 }
+
+export const API = {
+  GET_INGREDIENTS: 'https://norma.nomoreparties.space/api/ingredients'
+}

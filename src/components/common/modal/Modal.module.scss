@@ -1,0 +1,41 @@
+@use "./src/styles/variables";
+
+.modal {
+  position: fixed;
+  display: flex;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 1000;
+
+  &__overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: #000000;
+    opacity: .6;
+    z-index: 1000;
+  }
+
+  &__content {
+    position: relative;
+    margin: auto;
+    background: variables.$blackLight;
+    border: 1px solid rgba(76, 76, 255, 0.2);
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+    z-index: 2000;
+    min-width: 200px;
+    min-height: 200px;
+  }
+
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    right: 40px;
+    top: 50px;
+  }
+}
