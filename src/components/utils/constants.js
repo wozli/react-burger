@@ -9,3 +9,5 @@ export const NAME_INGREDIENTS = {
   SAUCE: 'Соусы',
   MAIN: 'Начинки',
 }
+
+export const TEXT_ERROR_REQUEST = 'Что то пошло не так. подождите или перезагрузите страницу';
