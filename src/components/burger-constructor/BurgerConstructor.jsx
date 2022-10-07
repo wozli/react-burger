@@ -1,6 +1,6 @@
 import React from 'react';
 import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useToggle} from "../../hocs/useToggle";
+import {useToggle} from "../../hooks/useToggle";
 import Modal from "../common/modal/Modal";
 import OrderDetails from "../order-details/OrderDetails";
 import BurgerConstructorStyles from './BurgerConstructor.module.scss';
@@ -10,7 +10,7 @@ import {TYPE_INGREDIENTS} from "../utils/constants";
 import {ORDER} from "../utils/data";
 
 function BurgerConstructor({ingredients}) {
-  const {isToggle, open: modalOpen, close: modalClose} = useToggle(false);
+  const {isToggle, toggle} = useToggle(false);
 
   const buns = ingredients.filter(ingredient => ingredient.type === TYPE_INGREDIENTS.BUN);
   const noBuns = ingredients.filter(ingredient => ingredient.type !== TYPE_INGREDIENTS.BUN);
@@ -31,7 +31,9 @@ function BurgerConstructor({ingredients}) {
             <div className={`${BurgerConstructorStyles.list} custom-scroll`}>
               {noBuns.map((item) => (
                   <div key={item._id} className={BurgerConstructorStyles.item}>
-                    <div className='mr-2'><DragIcon type="primary"/></div>
+                    <div className='mr-2'>
+                      <DragIcon type="primary"/>
+                    </div>
                     <ConstructorElement text={item.name}
                                         thumbnail={item.image}
                                         price={item.price}/>
@@ -54,13 +56,15 @@ function BurgerConstructor({ingredients}) {
             </div>
             <Button htmlType='button'
                     type="primary"
-                    onClick={modalOpen}
+                    onClick={toggle}
                     size="large">Оформить заказ</Button>
           </div>
         </section>
-        <Modal isOpen={isToggle} onClose={modalClose}>
-          <OrderDetails order={ORDER}/>
-        </Modal>
+        {isToggle &&
+          <Modal onClose={toggle}>
+            <OrderDetails order={ORDER}/>
+          </Modal>
+        }
       </>
   )
 }

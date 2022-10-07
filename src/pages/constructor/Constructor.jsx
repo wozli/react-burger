@@ -1,34 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
 import BurgerIngredients from "../../components/burger-ingredients/BurgerIngredients";
 import BurgerConstructor from "../../components/burger-constructor/BurgerConstructor";
 import ConstructorStyles from './Constructor.module.scss';
-import {API} from "../../components/utils/constants";
+import {GET_INGREDIENTS} from "../../components/utils/api";
+import {getRequest} from "../../components/utils/requests";
+import {TEXT_ERROR_REQUEST} from "../../components/utils/constants";
 
 function Constructor() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    const getProductData = async () => {
-      await axios.get(API.GET_INGREDIENTS)
-          .then(res => {
-            setData(res.data.data)
-          })
-          .catch(err => console.log(err))
-    }
-
-    getProductData();
+    getRequest(GET_INGREDIENTS)
+        .then(res => setData(res.data.data))
+        .catch(err => {
+          alert(TEXT_ERROR_REQUEST);
+          console.log(err);
+        });
   }, [])
 
   return (
       <main className={ConstructorStyles.constructor}>
         <div className={`${ConstructorStyles.constructor__inner} container`}>
-          {(data && data.length) &&
+          {(data && data.length) && (
               <>
                 <BurgerIngredients ingredients={data}/>
                 <BurgerConstructor ingredients={data}/>
               </>
-          }
-
+          )}
         </div>
       </main>
   );

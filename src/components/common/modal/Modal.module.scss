@@ -9,17 +9,6 @@
   top: 0;
   z-index: 1000;
 
-  &__overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    background-color: #000000;
-    opacity: .6;
-    z-index: 1000;
-  }
-
   &__content {
     position: relative;
     margin: auto;

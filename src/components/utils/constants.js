@@ -10,6 +10,4 @@ export const NAME_INGREDIENTS = {
   MAIN: 'Начинки',
 }
 
-export const API = {
-  GET_INGREDIENTS: 'https://norma.nomoreparties.space/api/ingredients'
-}
+export const TEXT_ERROR_REQUEST = 'Что то пошло не так. подождите или перезагрузите страницу';

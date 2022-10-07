@@ -1,32 +1,31 @@
 import React, {useEffect} from 'react';
 import * as ReactDOM from 'react-dom';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import ModalOverlay from "./components/modal-overlay/ModalOverlay";
 import ModalsStyles from './Modal.module.scss';
 import PropTypes from "prop-types";
 
 const modalElement = document.querySelector('#react-modals');
 
-function Modal({isOpen, children, onClose, title}) {
-
-  const handleKeyDown = e => {
-    if (e.keyCode === 27) {
-      onClose();
-    }
-  };
+function Modal({children, onClose, title}) {
 
   useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown);
-    }
+    const handleKeyDown = e => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     }
-  }, [isOpen])
+  }, []);
 
-  return isOpen && ReactDOM.createPortal(
+  return ReactDOM.createPortal(
       <div className={ModalsStyles.modal}>
-        <div className={ModalsStyles.modal__overlay} onClick={onClose}></div>
+        <ModalOverlay onClick={onClose}/>
         <div className={ModalsStyles.modal__content}>
           <div className={ModalsStyles.modal__header}>
             {title &&
@@ -43,7 +42,6 @@ function Modal({isOpen, children, onClose, title}) {
 }
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.node,
   title: PropTypes.string

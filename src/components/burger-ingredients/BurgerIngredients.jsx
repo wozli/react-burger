@@ -9,14 +9,14 @@ import * as Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import {PROP_INGREDIENTS} from "../utils/propTypes";
 import {TYPE_INGREDIENTS, NAME_INGREDIENTS} from "../utils/constants";
-import {useToggle} from "../../hocs/useToggle";
+import {useToggle} from "../../hooks/useToggle";
 
 function BurgerIngredients({ingredients}) {
-  const {isToggle, open: modalOpen, close: modalClose} = useToggle(false);
+  const {isToggle, toggle} = useToggle(false);
   const [current, setCurrent] = useState(TYPE_INGREDIENTS.BUN);
   const [selectIngredient, setSelectIngredient] = useState({});
 
-  const isFilteredIngredients = [
+  const ingredientsCategories = [
     {
       id: TYPE_INGREDIENTS.BUN,
       text: NAME_INGREDIENTS.BUN,
@@ -34,9 +34,9 @@ function BurgerIngredients({ingredients}) {
     }
   ];
 
-  const handlerSelectIngredient = (ingredient) => {
+  const handlerToggleModal = (ingredient = {}) => {
     setSelectIngredient(ingredient);
-    modalOpen();
+    toggle();
   }
 
   useEffect(() => {
@@ -66,19 +66,20 @@ function BurgerIngredients({ingredients}) {
             </Tab>
           </div>
           <div className={`${BurgerIngredientsStyles.list} custom-scroll`} id='scrollContainer'>
-            {isFilteredIngredients.map(ingredient => (
+            {ingredientsCategories.map(ingredient => (
                 <CategoryItem category={ingredient}
-                              selectIngredient={handlerSelectIngredient}
+                              selectIngredient={handlerToggleModal}
                               key={ingredient.id}/>
             ))}
           </div>
 
         </section>
-        <Modal isOpen={isToggle}
-               onClose={modalClose}
-               title='Детали ингредиента'>
-          <IngredientDetails ingredient={selectIngredient}/>
-        </Modal>
+        {isToggle &&
+          <Modal onClose={handlerToggleModal}
+                title='Детали ингредиента'>
+            <IngredientDetails ingredient={selectIngredient}/>
+          </Modal>
+        }
       </>
   );
 }

@@ -17,10 +17,10 @@ function OrderDetails({order}) {
           <img src={Icon} alt='статус заказа'/>
         </div>
         <p className='text text_type_main-default mb-2'>
-          {order.text_status}
+          Ваш заказ начали готовить
         </p>
         <p className='text text_type_main-default text_color_inactive mb-15'>
-          {order.text_description}
+          Дождитесь готовности на орбитальной станции
         </p>
       </div>
   );
