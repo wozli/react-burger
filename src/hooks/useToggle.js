@@ -13,5 +13,5 @@ export const useToggle = (initialState = false) => {
 
   const toggle = () => (isToggle ? close() : open());
 
-  return { isToggle, toggle };
+  return { isToggle, toggle, close, open };
 };

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext, useMemo} from 'react';
 import BurgerIngredientsStyles from './BurgerIngredients.module.scss';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import Title from "../common/title/Title";
@@ -6,17 +6,18 @@ import Modal from "../common/modal/Modal";
 import IngredientDetails from "../ingredient-details/IngredientDetails";
 import CategoryItem from "../category-item/CategoryItem";
 import * as Scroll from 'react-scroll';
-import PropTypes from 'prop-types';
-import {PROP_INGREDIENTS} from "../utils/propTypes";
 import {TYPE_INGREDIENTS, NAME_INGREDIENTS} from "../utils/constants";
 import {useToggle} from "../../hooks/useToggle";
+import {ProductContext} from "../../services/constructorContenxt";
+import PropTypes from "prop-types";
 
-function BurgerIngredients({ingredients}) {
+function BurgerIngredients({addCartIngredient}) {
   const {isToggle, toggle} = useToggle(false);
   const [current, setCurrent] = useState(TYPE_INGREDIENTS.BUN);
   const [selectIngredient, setSelectIngredient] = useState({});
+  const {data: ingredients} = useContext(ProductContext);
 
-  const ingredientsCategories = [
+  const ingredientsCategories = useMemo(() => [
     {
       id: TYPE_INGREDIENTS.BUN,
       text: NAME_INGREDIENTS.BUN,
@@ -32,7 +33,7 @@ function BurgerIngredients({ingredients}) {
       text: NAME_INGREDIENTS.MAIN,
       items: ingredients.filter(item => item.type === TYPE_INGREDIENTS.MAIN),
     }
-  ];
+  ], [ingredients]);
 
   const handlerToggleModal = (ingredient = {}) => {
     setSelectIngredient(ingredient);
@@ -68,24 +69,24 @@ function BurgerIngredients({ingredients}) {
           <div className={`${BurgerIngredientsStyles.list} custom-scroll`} id='scrollContainer'>
             {ingredientsCategories.map(ingredient => (
                 <CategoryItem category={ingredient}
-                              selectIngredient={handlerToggleModal}
+                              selectIngredient={addCartIngredient}
                               key={ingredient.id}/>
             ))}
           </div>
 
         </section>
-        {isToggle &&
-          <Modal onClose={handlerToggleModal}
-                title='Детали ингредиента'>
-            <IngredientDetails ingredient={selectIngredient}/>
-          </Modal>
-        }
+        {isToggle && (
+            <Modal onClose={handlerToggleModal}
+                   title='Детали ингредиента'>
+              <IngredientDetails ingredient={selectIngredient}/>
+            </Modal>
+        )}
       </>
   );
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PROP_INGREDIENTS.isRequired).isRequired
+  addCartIngredient: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;
