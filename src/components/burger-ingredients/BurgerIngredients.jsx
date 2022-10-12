@@ -8,7 +8,7 @@ import CategoryItem from "../category-item/CategoryItem";
 import * as Scroll from 'react-scroll';
 import {TYPE_INGREDIENTS, NAME_INGREDIENTS} from "../utils/constants";
 import {useToggle} from "../../hooks/useToggle";
-import {ProductContext} from "../../services/constructorContenxt";
+import {ProductContext} from "../../services/productContext";
 import PropTypes from "prop-types";
 
 function BurgerIngredients({addCartIngredient}) {

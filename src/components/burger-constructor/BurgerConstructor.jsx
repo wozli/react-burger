@@ -1,38 +1,35 @@
-import React, {useContext, useMemo} from 'react';
+import React, {useContext} from 'react';
 import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './BurgerConstructor.module.scss';
-import {TYPE_INGREDIENTS} from "../utils/constants";
-import {ConstructorContext} from "../../services/constructorContenxt";
+import {ConstructorContext} from "../../services/constructorContext";
 import PropTypes from "prop-types";
 
 function BurgerConstructor({deleteCartIngredient}) {
-  const {stateIngredients, sendOrder} = useContext(ConstructorContext);
+  const {totalPrice, sendOrder, selectBun: bun, selectIngredients: ingredients} = useContext(ConstructorContext);
 
-  const bun = useMemo(() => stateIngredients.ingredients.find(ingredient => ingredient.type === TYPE_INGREDIENTS.BUN), [stateIngredients.ingredients]);
-  const noBuns = useMemo(() => stateIngredients.ingredients.filter(ingredient => ingredient.type !== TYPE_INGREDIENTS.BUN), [stateIngredients.ingredients]);
-  const notEmptyIngredients = useMemo(() => stateIngredients.ingredients && stateIngredients.ingredients.length, [stateIngredients.ingredients]);
+  const notEmptyIngredients = (bun && bun._id) || (ingredients.ingredients && ingredients.ingredients.length);
 
   return (
       <>
         <section className={`${BurgerConstructorStyles.section} pt-15`}>
           {!notEmptyIngredients && (
-              <p className={`${BurgerConstructorStyles.info} text text_type_main-medium`}>Добавьте ингредиенты с
-                лева</p>
+              <p className={`${BurgerConstructorStyles.info} text text_type_main-medium`}>Добавьте ингредиенты слева</p>
           )}
           <div className={`${BurgerConstructorStyles.burger} mb-5`}>
 
-            {bun && (
+            {(bun && bun._id) && (
                 <div className={`${BurgerConstructorStyles.item} ml-8`}>
                   <ConstructorElement text={`${bun.name} (верх)`}
                                       type='top'
+                                      isLocked={true}
                                       handleClose={() => deleteCartIngredient(bun)}
                                       thumbnail={bun.image}
                                       price={bun.price}/>
                 </div>
             )}
             <div className={`${BurgerConstructorStyles.list} custom-scroll`}>
-              {noBuns.map((item) => (
-                  <div key={item._id} className={BurgerConstructorStyles.item}>
+              {ingredients.map((item, index) => (
+                  <div key={`${item._id}${index}`} className={BurgerConstructorStyles.item}>
                     <div className='mr-2'>
                       <DragIcon type="primary"/>
                     </div>
@@ -43,10 +40,11 @@ function BurgerConstructor({deleteCartIngredient}) {
                   </div>
               ))}
             </div>
-            {bun && (
+            {(bun && bun._id) && (
                 <div className={`${BurgerConstructorStyles.item} ml-8`}>
                   <ConstructorElement text={`${bun.name} (низ)`}
                                       type='bottom'
+                                      isLocked={true}
                                       handleClose={() => deleteCartIngredient(bun)}
                                       thumbnail={bun.image}
                                       price={bun.price}/>
@@ -55,7 +53,7 @@ function BurgerConstructor({deleteCartIngredient}) {
           </div>
           <div className={BurgerConstructorStyles.footer}>
             <div className={`${BurgerConstructorStyles.total} mr-10`}>
-              <p className='text text_type_digits-medium mr-2'>{stateIngredients.totalPrice}</p>
+              <p className='text text_type_digits-medium mr-2'>{totalPrice.totalPrice}</p>
               <CurrencyIcon type='primary'/>
             </div>
             <Button htmlType='button'

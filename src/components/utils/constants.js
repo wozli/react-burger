@@ -11,11 +11,10 @@ export const NAME_INGREDIENTS = {
 }
 
 export const TEXT_ERROR_REQUEST = 'Что то пошло не так. подождите или перезагрузите страницу';
-export const TEXT_ERROR_ADD = 'Вы уже добавили такой ингредиент!';
-export const TEXT_ERROR_BUN_ALREADY_ADD = 'Булка уже добавлена!';
+export const TEXT_ERROR_EMPTY_CONSTRUCTOR = 'Булка или ингредиенты не добавлены!';
 
-export const ACTIONS_REDUCER_INGREDIENTS = {
-  ADD: 'add',
-  DELETE: 'del',
+export const ACTIONS_REDUCER_TOTAL_PRICE = {
+  ADD_COST: 'add',
+  TAKE_AWAY_COST: 'del',
   RESET: 'res',
 }
