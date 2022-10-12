@@ -8,7 +8,7 @@ function OrderDetails({order}) {
   return (
       <div className={OrderDetailsStyles.order}>
         <p className={`${OrderDetailsStyles.order__number} text text_type_digits-large mb-8`}>
-          {order.id}
+          {order.number}
         </p>
         <p className='text text_type_main-medium mb-15'>
           идентификатор заказа

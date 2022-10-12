@@ -1,76 +1,73 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useToggle} from "../../hooks/useToggle";
-import Modal from "../common/modal/Modal";
-import OrderDetails from "../order-details/OrderDetails";
 import BurgerConstructorStyles from './BurgerConstructor.module.scss';
+import {ConstructorContext} from "../../services/constructorContext";
 import PropTypes from "prop-types";
-import {PROP_INGREDIENTS} from "../utils/propTypes";
-import {TYPE_INGREDIENTS} from "../utils/constants";
-import {ORDER} from "../utils/data";
 
-function BurgerConstructor({ingredients}) {
-  const {isToggle, toggle} = useToggle(false);
+function BurgerConstructor({deleteCartIngredient}) {
+  const {totalPrice, sendOrder, selectBun: bun, selectIngredients: ingredients} = useContext(ConstructorContext);
 
-  const buns = ingredients.filter(ingredient => ingredient.type === TYPE_INGREDIENTS.BUN);
-  const noBuns = ingredients.filter(ingredient => ingredient.type !== TYPE_INGREDIENTS.BUN);
+  const notEmptyIngredients = (bun && bun._id) || (ingredients.ingredients && ingredients.ingredients.length);
 
   return (
       <>
         <section className={`${BurgerConstructorStyles.section} pt-15`}>
-          <div className={`${BurgerConstructorStyles.burger} mb-10`}>
+          {!notEmptyIngredients && (
+              <p className={`${BurgerConstructorStyles.info} text text_type_main-medium`}>Добавьте ингредиенты слева</p>
+          )}
+          <div className={`${BurgerConstructorStyles.burger} mb-5`}>
 
-            {buns[0] &&
-            <div className={`${BurgerConstructorStyles.item} ml-8`}>
-              <ConstructorElement text={`${buns[0].name} (верх)`}
-                                  type='top'
-                                  isLocked={true}
-                                  thumbnail={buns[0].image}
-                                  price={buns[0].price}/>
-            </div>}
+            {(bun && bun._id) && (
+                <div className={`${BurgerConstructorStyles.item} ml-8`}>
+                  <ConstructorElement text={`${bun.name} (верх)`}
+                                      type='top'
+                                      isLocked={true}
+                                      handleClose={() => deleteCartIngredient(bun)}
+                                      thumbnail={bun.image}
+                                      price={bun.price}/>
+                </div>
+            )}
             <div className={`${BurgerConstructorStyles.list} custom-scroll`}>
-              {noBuns.map((item) => (
-                  <div key={item._id} className={BurgerConstructorStyles.item}>
+              {ingredients.map((item, index) => (
+                  <div key={`${item._id}${index}`} className={BurgerConstructorStyles.item}>
                     <div className='mr-2'>
                       <DragIcon type="primary"/>
                     </div>
                     <ConstructorElement text={item.name}
+                                        handleClose={() => deleteCartIngredient(item)}
                                         thumbnail={item.image}
                                         price={item.price}/>
                   </div>
               ))}
             </div>
-            {buns[1] &&
-            <div className={`${BurgerConstructorStyles.item} ml-8`}>
-              <ConstructorElement text={`${buns[1].name} (низ)`}
-                                  type='bottom'
-                                  isLocked={true}
-                                  thumbnail={buns[1].image}
-                                  price={buns[1].price}/>
-            </div>}
+            {(bun && bun._id) && (
+                <div className={`${BurgerConstructorStyles.item} ml-8`}>
+                  <ConstructorElement text={`${bun.name} (низ)`}
+                                      type='bottom'
+                                      isLocked={true}
+                                      handleClose={() => deleteCartIngredient(bun)}
+                                      thumbnail={bun.image}
+                                      price={bun.price}/>
+                </div>
+            )}
           </div>
           <div className={BurgerConstructorStyles.footer}>
             <div className={`${BurgerConstructorStyles.total} mr-10`}>
-              <p className='text text_type_digits-medium mr-2'>610</p>
+              <p className='text text_type_digits-medium mr-2'>{totalPrice.totalPrice}</p>
               <CurrencyIcon type='primary'/>
             </div>
             <Button htmlType='button'
                     type="primary"
-                    onClick={toggle}
+                    onClick={sendOrder}
                     size="large">Оформить заказ</Button>
           </div>
         </section>
-        {isToggle &&
-          <Modal onClose={toggle}>
-            <OrderDetails order={ORDER}/>
-          </Modal>
-        }
       </>
   )
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PROP_INGREDIENTS.isRequired).isRequired
+  deleteCartIngredient: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

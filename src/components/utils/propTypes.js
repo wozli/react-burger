@@ -16,5 +16,5 @@ export const PROP_INGREDIENTS = PropTypes.shape({
 });
 
 export const PROP_ORDER = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
 });
