@@ -6,7 +6,7 @@ import ConstructorStyles from './Constructor.module.scss';
 import {GET_INGREDIENTS, POST_ORDER} from "../../components/utils/api";
 import {getRequest, postRequest} from "../../components/utils/requests";
 import {
-  TEXT_ERROR_EMPTY_CONSTRUCTOR,
+  TEXT_ERROR_NO_BUN,
   TEXT_ERROR_REQUEST,
   TYPE_INGREDIENTS
 } from "../../components/utils/constants";
@@ -61,7 +61,7 @@ function Constructor() {
   }, []);
 
   const sendOrder = () => {
-    if (selectBun && selectBun._id && selectIngredients && selectIngredients.length) {
+    if (selectBun && selectBun._id) {
       toggleLoader();
       postRequest(POST_ORDER, {
         ingredients: [selectBun._id, ...selectIngredients.map(ingredient => ingredient._id), selectBun._id]
@@ -77,7 +77,7 @@ function Constructor() {
             console.log(err);
           });
     } else {
-      alert(TEXT_ERROR_EMPTY_CONSTRUCTOR);
+      alert(TEXT_ERROR_NO_BUN);
     }
   }
 
