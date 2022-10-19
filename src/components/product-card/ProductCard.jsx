@@ -1,14 +1,28 @@
 import React from 'react';
 import ProductCardStyles from './ProductCard.module.scss';
-import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-
+import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
+import {useDrag} from "react-dnd";
 import {PROP_INGREDIENTS} from "../utils/propTypes";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 function ProductCard({product, clickProduct}) {
+  const [{isDrag}, dragRef] = useDrag({
+    type: 'ingredient',
+    item: product,
+    collect: monitor => ({
+      isDrag: monitor.isDragging()
+    })
+  });
+
+  const productClass = classNames(  ProductCardStyles.card, {
+    [ProductCardStyles.card__isDrag]: isDrag,
+  });
 
   return (
-      <div className={ProductCardStyles.card} onClick={() => clickProduct(product)}>
+      <div className={productClass}
+           ref={dragRef}
+           onClick={() => clickProduct(product)}>
         <img className={`${ProductCardStyles.card__img} mb-1`}
              src={product.image}
              alt={product.name}/>

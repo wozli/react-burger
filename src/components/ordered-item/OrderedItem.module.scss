@@ -1,0 +1,19 @@
+.item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  transition: opacity ease-in .3s;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &__grab {
+    cursor: grab;
+  }
+
+  &__isDragging {
+    opacity: 0.2;
+  }
+}
