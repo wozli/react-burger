@@ -8,14 +8,13 @@ import CategoryItem from "../category-item/CategoryItem";
 import * as Scroll from 'react-scroll';
 import {TYPE_INGREDIENTS, NAME_INGREDIENTS} from "../utils/constants";
 import {useDispatch, useSelector} from "react-redux";
-import {ingredientsSlice} from "../../services/slices/ingredients";
 import { useInView } from 'react-intersection-observer';
+import {closeModalIngredient, setCurrentIngredient} from "../../services/slices/ingredients";
 
 function BurgerIngredients() {
   const [tab, setTab] = useState(TYPE_INGREDIENTS.BUN);
   const dispatch = useDispatch();
   const {ingredients, openModalIngredient, currentIngredient } = useSelector(state => state.ingredients);
-  const { actions } = ingredientsSlice;
 
   const { ref: refBun, inView: inViewByn } = useInView({
     initialInView: true,
@@ -42,14 +41,14 @@ function BurgerIngredients() {
       items: ingredients.filter(item => item.type === TYPE_INGREDIENTS.MAIN),
       ref: refMain
     }
-  ], [ingredients]);
+  ], [ingredients, refSauce, refMain, refBun]);
 
   const handlerOpenModal = (ingredient = {}) => {
-    dispatch(actions.setCurrentIngredient(ingredient))
+    dispatch(setCurrentIngredient(ingredient))
   }
 
   const handlerCloseModal = () => {
-    dispatch(actions.closeModalIngredient())
+    dispatch(closeModalIngredient())
   }
 
   useEffect(() => {

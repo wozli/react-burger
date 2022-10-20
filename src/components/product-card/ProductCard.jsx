@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import ProductCardStyles from './ProductCard.module.scss';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDrag} from "react-dnd";
 import {PROP_INGREDIENTS} from "../utils/propTypes";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import {useSelector} from "react-redux";
+import {TYPE_INGREDIENTS} from "../utils/constants";
 
 function ProductCard({product, clickProduct}) {
+  const {ingredients, bun} = useSelector(state => state.constructorReducer);
+
   const [{isDrag}, dragRef] = useDrag({
     type: 'ingredient',
     item: product,
@@ -15,7 +19,14 @@ function ProductCard({product, clickProduct}) {
     })
   });
 
-  const productClass = classNames(  ProductCardStyles.card, {
+  const countInCart = useMemo(() => {
+    if (product.type === TYPE_INGREDIENTS.BUN && bun?._id) {
+      return bun._id === product._id ? 2 : 0;
+    }
+    return ingredients.reduce((acc, item) => item._id === product._id ? acc + 1 : acc, 0)
+  }, [ingredients, bun, product])
+
+  const productClass = classNames(ProductCardStyles.card, {
     [ProductCardStyles.card__isDrag]: isDrag,
   });
 
@@ -34,7 +45,9 @@ function ProductCard({product, clickProduct}) {
           {product.name}
         </p>
         <div className={ProductCardStyles.card__counter}>
-          <Counter count={1} size="small"/>
+          {countInCart > 0 && (
+              <Counter count={countInCart} size="small"/>
+          )}
         </div>
       </div>
   );

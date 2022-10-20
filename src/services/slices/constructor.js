@@ -13,7 +13,7 @@ export const constructorSlice = createSlice({
   reducers: {
     addCartIngredient: (state, {payload}) => {
       if (payload.type === TYPE_INGREDIENTS.BUN) {
-        if (state.bun && state.bun._id) {
+        if (state.bun?._id) {
           state.totalPrice = state.totalPrice - state.bun.price * 2;
         }
         state.bun = payload;
@@ -32,3 +32,5 @@ export const constructorSlice = createSlice({
     resetCart: () => initialState
   },
 })
+
+export const { addCartIngredient, deleteCartIngredient, updateListIngredients, resetCart } = constructorSlice.actions

@@ -47,4 +47,6 @@ export const ingredientsSlice = createSlice({
       alert(TEXT_ERROR_REQUEST);
     },
   },
-})
+});
+
+export const { closeModalIngredient, setCurrentIngredient } = ingredientsSlice.actions

@@ -3,25 +3,23 @@ import {useDrop} from "react-dnd";
 import { Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './BurgerConstructor.module.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {constructorSlice} from "../../services/slices/constructor";
-import {orderSlice} from "../../services/slices/order";
 import {getOrderInfo} from "../../services/slices/order";
 import Modal from "../common/modal/Modal";
 import OrderDetails from "../order-details/OrderDetails";
 import {TEXT_ERROR_NO_BUN} from "../utils/constants";
 import OrderedItem from "../ordered-item/OrderedItem";
+import {resetOrder} from "../../services/slices/order";
+import {addCartIngredient, resetCart, deleteCartIngredient, updateListIngredients} from "../../services/slices/constructor";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const {actions: constructorActions} = constructorSlice;
-  const {actions: orderActions} = orderSlice;
   const {order, openModalOrder} = useSelector(state => state.order);
   const {ingredients, bun, totalPrice} = useSelector(state => state.constructorReducer);
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      addCartIngredient(item);
+      handlerAddCartIngredient(item);
     },
   });
 
@@ -31,21 +29,21 @@ function BurgerConstructor() {
     newCards.splice(dragIndex, 1);
     newCards.splice(hoverIndex, 0, dragCard);
 
-    dispatch(constructorActions.updateListIngredients(newCards));
+    dispatch(updateListIngredients(newCards));
   }, [ingredients, dispatch]);
 
   const notEmptyIngredients = (bun && bun._id) || (ingredients && ingredients.length);
 
-  const addCartIngredient = (ingredient) => {
-    dispatch(constructorActions.addCartIngredient(ingredient));
+  const handlerAddCartIngredient = (ingredient) => {
+    dispatch(addCartIngredient(ingredient));
   }
 
-  const deleteCartIngredient = (item, index) => {
-    dispatch(constructorActions.deleteCartIngredient({item, index}));
+  const handleDeleteCartIngredient = (item, index) => {
+    dispatch(deleteCartIngredient({item, index}));
   }
 
   const sendOrder = async () => {
-    if (bun && bun._id) {
+    if (bun?._id) {
       dispatch(await getOrderInfo([bun._id, ...ingredients.map(ingredient => ingredient._id), bun._id]));
     } else {
       alert(TEXT_ERROR_NO_BUN)
@@ -53,8 +51,8 @@ function BurgerConstructor() {
   }
 
   const handlerCloseModalOrder = () => {
-    dispatch(constructorActions.resetCart());
-    dispatch(orderActions.resetOrder());
+    dispatch(resetCart());
+    dispatch(resetOrder());
   }
 
   return (
@@ -66,12 +64,12 @@ function BurgerConstructor() {
           )}
           <div className={`${BurgerConstructorStyles.burger} mb-5`}>
 
-            {(bun && bun._id) && (
+            {(bun?._id) && (
                 <OrderedItem item={bun}
                              isBun={true}
                              type='top'
                              moveCard={moveCard}
-                             deleteCartIngredient={deleteCartIngredient}/>
+                             deleteCartIngredient={handleDeleteCartIngredient}/>
             )}
             <div className={`${BurgerConstructorStyles.list} custom-scroll`}>
               {ingredients.map((item, index) => (
@@ -81,15 +79,15 @@ function BurgerConstructor() {
                                type='middle'
                                index={index}
                                moveCard={moveCard}
-                               deleteCartIngredient={deleteCartIngredient}/>
+                               deleteCartIngredient={handleDeleteCartIngredient}/>
               ))}
             </div>
-            {(bun && bun._id) && (
+            {(bun?._id) && (
                 <OrderedItem item={bun}
                              isBun={true}
                              type='bottom'
                              moveCard={moveCard}
-                             deleteCartIngredient={deleteCartIngredient}/>
+                             deleteCartIngredient={handleDeleteCartIngredient}/>
             )}
           </div>
           <div className={BurgerConstructorStyles.footer}>

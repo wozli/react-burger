@@ -42,4 +42,6 @@ export const orderSlice = createSlice({
       alert(TEXT_ERROR_REQUEST);
     },
   },
-})
+});
+
+export const { resetOrder } = orderSlice.actions
