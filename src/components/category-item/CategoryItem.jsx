@@ -8,6 +8,7 @@ import {PROP_INGREDIENTS} from "../utils/propTypes";
 function CategoryItem({category, selectIngredient}) {
   return (
       <div className={CategoryItemStyles.category}
+           ref={category.ref}
            name={category.id}>
         <Title type='medium'
                classes='mb-6'
