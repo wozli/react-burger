@@ -33,8 +33,8 @@ export const ingredientsSlice = createSlice({
   },
   extraReducers: {
     [getIngredients.pending]: (state) => {
-      state.ingredientsRequest = true;
-      state.ingredientsFailed = false;
+        state.ingredientsRequest = true;
+        state.ingredientsFailed = false;
     },
     [getIngredients.fulfilled]: (state, {payload}) => {
       state.ingredientsRequest = false;

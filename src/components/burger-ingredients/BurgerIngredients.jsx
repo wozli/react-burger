@@ -2,19 +2,15 @@ import React, {useState, useEffect, useMemo} from 'react';
 import BurgerIngredientsStyles from './BurgerIngredients.module.scss';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import Title from "../common/title/Title";
-import Modal from "../common/modal/Modal";
-import IngredientDetails from "../ingredient-details/IngredientDetails";
 import CategoryItem from "../category-item/CategoryItem";
 import * as Scroll from 'react-scroll';
 import {TYPE_INGREDIENTS, NAME_INGREDIENTS} from "../utils/constants";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import { useInView } from 'react-intersection-observer';
-import {closeModalIngredient, setCurrentIngredient} from "../../services/slices/ingredients";
 
 function BurgerIngredients() {
   const [tab, setTab] = useState(TYPE_INGREDIENTS.BUN);
-  const dispatch = useDispatch();
-  const {ingredients, openModalIngredient, currentIngredient } = useSelector(state => state.ingredients);
+  const {ingredients } = useSelector(state => state.ingredients);
 
   const { ref: refBun, inView: inViewByn } = useInView({
     initialInView: true,
@@ -42,14 +38,6 @@ function BurgerIngredients() {
       ref: refMain
     }
   ], [ingredients, refSauce, refMain, refBun]);
-
-  const handlerOpenModal = (ingredient = {}) => {
-    dispatch(setCurrentIngredient(ingredient))
-  }
-
-  const handlerCloseModal = () => {
-    dispatch(closeModalIngredient())
-  }
 
   useEffect(() => {
     if (inViewByn) {
@@ -92,18 +80,11 @@ function BurgerIngredients() {
           <div className={`${BurgerIngredientsStyles.list} custom-scroll`} id='scrollContainer'>
             {ingredientsCategories.map(ingredient => (
                 <CategoryItem category={ingredient}
-                              selectIngredient={handlerOpenModal}
                               key={ingredient.id}/>
             ))}
           </div>
 
         </section>
-        {openModalIngredient && (
-            <Modal onClose={handlerCloseModal}
-                   title='Детали ингредиента'>
-              <IngredientDetails ingredient={currentIngredient}/>
-            </Modal>
-        )}
       </>
   );
 }

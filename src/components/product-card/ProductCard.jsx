@@ -3,12 +3,13 @@ import ProductCardStyles from './ProductCard.module.scss';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDrag} from "react-dnd";
 import {PROP_INGREDIENTS} from "../utils/propTypes";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import {useSelector} from "react-redux";
 import {TYPE_INGREDIENTS} from "../utils/constants";
+import {useLocation, Link} from 'react-router-dom';
 
-function ProductCard({product, clickProduct}) {
+function ProductCard({product}) {
+  const location = useLocation();
   const {ingredients, bun} = useSelector(state => state.constructorReducer);
 
   const [{isDrag}, dragRef] = useDrag({
@@ -30,10 +31,17 @@ function ProductCard({product, clickProduct}) {
     [ProductCardStyles.card__isDrag]: isDrag,
   });
 
+  const ingredientId = product['_id'];
+
   return (
-      <div className={productClass}
+      <Link className={productClass}
            ref={dragRef}
-           onClick={() => clickProduct(product)}>
+            key={ingredientId}
+            to={{
+              pathname: `/ingredients/${ingredientId}`,
+              state: { background: location },
+            }}
+      >
         <img className={`${ProductCardStyles.card__img} mb-1`}
              src={product.image}
              alt={product.name}/>
@@ -49,13 +57,12 @@ function ProductCard({product, clickProduct}) {
               <Counter count={countInCart} size="small"/>
           )}
         </div>
-      </div>
+      </Link>
   );
 }
 
 ProductCard.propTypes = {
   product: PROP_INGREDIENTS.isRequired,
-  clickProduct: PropTypes.func.isRequired
 };
 
 export default ProductCard;

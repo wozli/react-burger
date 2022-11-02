@@ -1,0 +1,66 @@
+.profile {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 80px;
+
+  &__inner {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  &__menu {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__flexEnd {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__link {
+    text-decoration: none;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:active {
+      color: white;
+    }
+  }
+
+  &__linkActive {
+    color: white;
+  }
+
+  &__desc {
+    color: #8585AD;
+    font-size: 16px;
+    opacity: 0.4;
+  }
+
+  &__ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 0;
+    margin: 0;
+
+    li {
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
+}

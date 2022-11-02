@@ -10,8 +10,12 @@ import {TEXT_ERROR_NO_BUN} from "../utils/constants";
 import OrderedItem from "../ordered-item/OrderedItem";
 import {resetOrder} from "../../services/slices/order";
 import {addCartIngredient, resetCart, deleteCartIngredient, updateListIngredients} from "../../services/slices/constructor";
+import {toast} from "react-toastify";
+import {useHistory} from "react-router-dom";
 
 function BurgerConstructor() {
+  const history = useHistory();
+  const {user} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const {order, openModalOrder} = useSelector(state => state.order);
   const {ingredients, bun, totalPrice} = useSelector(state => state.constructorReducer);
@@ -43,10 +47,29 @@ function BurgerConstructor() {
   }
 
   const sendOrder = async () => {
+    if (!user) {
+      toast.error('Для оформления заказа авторизуйтесь', {
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+      history.replace({ pathname: '/login' });
+      return;
+    }
     if (bun?._id) {
       dispatch(await getOrderInfo([bun._id, ...ingredients.map(ingredient => ingredient._id), bun._id]));
     } else {
-      alert(TEXT_ERROR_NO_BUN)
+      toast.error(TEXT_ERROR_NO_BUN, {
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
     }
   }
 

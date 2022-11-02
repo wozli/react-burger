@@ -3,6 +3,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  max-width: 640px;
+  margin: auto;
 
   &__img {
     width: 100%;

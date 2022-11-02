@@ -1,12 +1,30 @@
-import React from 'react';
+import React, {useEffect, useMemo} from 'react';
 import IngredientCharacteristic from "./components/ingredient-characteristic/IngredientCharacteristic";
 import IngredientDetailsStyles from './IngredientDetails.module.scss';
-import {PROP_INGREDIENTS} from "../utils/propTypes";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
+import {getIngredients} from "../../services/slices/ingredients";
 
-function IngredientDetails({ingredient}) {
+function IngredientDetails() {
+  const dispatch = useDispatch();
+  const {ingredientId} = useParams();
+  const {ingredients} = useSelector(state => state.ingredients);
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      dispatch(getIngredients());
+    }
+  }, []);
+
+  const ingredient = useMemo(() => ingredients.find(item => item._id === ingredientId), [ingredients]);
+
+  if (!ingredient) {
+    return;
+  }
 
   return (
       <div className={IngredientDetailsStyles.ingredient}>
+        <p className={`text text_type_main-large`}>Детали ингредиента</p>
         <img className={`${IngredientDetailsStyles.ingredient__img} mb-4`}
              src={ingredient.image_large}
              alt={ingredient.name}/>
@@ -24,9 +42,5 @@ function IngredientDetails({ingredient}) {
       </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  ingredient: PROP_INGREDIENTS
-};
 
 export default IngredientDetails;
