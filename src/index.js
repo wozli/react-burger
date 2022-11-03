@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {rootReducer} from "./services/reducers";
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
-import { configureStore } from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import './styles/index.scss';
 
@@ -21,11 +21,9 @@ const store = configureStore({
 });
 
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <App/>
-        </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+      <App/>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

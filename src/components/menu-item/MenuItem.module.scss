@@ -8,4 +8,14 @@
   color: variables.$text;
 
   text-decoration: none;
+
+  &__isActive {
+    .menuItem__text {
+      color: #F2F2F3;
+    }
+  }
+
+  &__text {
+    color: #8585ad;
+  }
 }

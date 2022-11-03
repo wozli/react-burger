@@ -8,6 +8,7 @@
   flex-direction: column;
   cursor: pointer;
   transition: opacity ease-in .2s;
+  text-decoration: none;
 
   &__isDrag {
     opacity: .5;

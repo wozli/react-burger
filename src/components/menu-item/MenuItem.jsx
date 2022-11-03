@@ -1,22 +1,24 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import MenuItemStyles from './MenuItem.module.scss';
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
 
-function MenuItem({text, classes, children, active}) {
-  const textClass = classNames( 'text text_type_main-default ml-2', {
-    'text_color_inactive': !active,
-  });
+function MenuItem({text, classes, children, to, exact}) {
   const headerClass = classNames( 'pt-4 pb-4 pr-5 pl-5', {
     [MenuItemStyles.menuItem]: true,
     [classes]: classes,
   });
+
   return (
-      <a href='#' className={headerClass}>
+      <NavLink to={to}
+               exact={exact}
+               className={headerClass}
+               activeClassName={MenuItemStyles.menuItem__isActive}>
         {children}
-        <div className={textClass}>{text}</div>
-      </a>
+        <div className={`${MenuItemStyles.menuItem__text} text text_type_main-default ml-2`}>{text}</div>
+      </NavLink>
   );
 }
 
@@ -24,7 +26,8 @@ MenuItem.propTypes = {
   text: PropTypes.string.isRequired,
   classes: PropTypes.string,
   children: PropTypes.node,
-  active: PropTypes.bool,
+  exact: PropTypes.bool,
+  to: PropTypes.string,
 };
 
 export default MenuItem;

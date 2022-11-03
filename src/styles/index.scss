@@ -1,4 +1,6 @@
 @use "variables";
+@import 'form';
+@import "react-toastify/dist/ReactToastify.css";
 
 body {
   position: relative;
