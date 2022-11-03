@@ -28,7 +28,7 @@ function RegisterPage() {
       return;
     }
     dispatch(pendingAuth());
-    dispatch(await userRegister({password, email, name}))
+    dispatch(userRegister({password, email, name}))
         .then((res) => {
           if (res.payload.data.success) {
             dispatch(setUser(res.payload.data));

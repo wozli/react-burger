@@ -37,7 +37,7 @@ function App() {
     const history = useHistory();
     const {orderRequest} = useSelector(state => state.order);
     const {ingredientsRequest} = useSelector(state => state.ingredients);
-    const {authRequest} = useSelector(state => state.auth);
+    const {authRequest, userRequest} = useSelector(state => state.auth);
 
     const background = location.state && location.state.background;
 
@@ -47,7 +47,7 @@ function App() {
 
     return (
         <>
-          {(ingredientsRequest || orderRequest || authRequest) && (
+          {(ingredientsRequest || orderRequest || authRequest || userRequest) && (
               <Loader/>
           )}
           <ToastContainer/>
@@ -56,18 +56,18 @@ function App() {
             <Route path="/" exact={true}>
               <ConstructorPage/>
             </Route>
-            <Route path="/login" exact={true}>
+            <ProtectedRoute withAuth={false} path="/login" exact={true}>
               <LoginPage/>
-            </Route>
-            <Route path="/register" exact={true}>
+            </ProtectedRoute>
+            <ProtectedRoute withAuth={false} path="/register" exact={true}>
               <RegisterPage/>
-            </Route>
-            <Route path="/forgot-password" exact={true}>
+            </ProtectedRoute>
+            <ProtectedRoute withAuth={false} path="/forgot-password" exact={true}>
               <ForgotPasswordPage/>
-            </Route>
-            <Route path="/reset-password" exact={true}>
+            </ProtectedRoute>
+            <ProtectedRoute withAuth={false} path="/reset-password" exact={true}>
               <ResetPasswordPage/>
-            </Route>
+            </ProtectedRoute>
             <ProtectedRoute path="/profile">
               <ProfilePage/>
             </ProtectedRoute>

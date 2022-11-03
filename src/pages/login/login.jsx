@@ -6,15 +6,13 @@ import {TEXT_ERROR_NOT_FILLED_FIELDS} from "../../components/utils/constants";
 import {userLogin, pendingAuth, rejectedAuth, fulfilledAuth, setUser} from "../../services/slices/auth";
 import {useDispatch, useSelector} from "react-redux";
 import { useHistory } from 'react-router-dom';
-import {Redirect, useLocation} from 'react-router-dom';
 
 function LoginPage() {
   const history = useHistory();
-  const { state } = useLocation();
   const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const {user, userRequest} = useSelector(state => state.auth);
+  const {userRequest} = useSelector(state => state.auth);
 
   const sendLogin = async () => {
     if (!password || !email) {
@@ -41,13 +39,6 @@ function LoginPage() {
 
   if (userRequest) {
     return null
-  }
-  if (user) {
-    return (
-        <Redirect
-            to={ state?.from || '/' }
-        />
-    );
   }
 
   return (

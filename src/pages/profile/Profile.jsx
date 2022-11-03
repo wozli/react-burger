@@ -1,61 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ProfileStyles from './Profile.module.scss'
 import {NavLink} from 'react-router-dom';
 import {Switch, Route} from 'react-router-dom';
-import {EmailInput, Input, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
-import {fulfilledAuth, pendingAuth, rejectedAuth, setUser, updateLogin, userLogout, resetAuth} from "../../services/slices/auth";
-import {toast} from "react-toastify";
-import {TEXT_ERROR_NOT_FILLED_FIELDS} from "../../components/utils/constants";
+import {useDispatch} from "react-redux";
+import {fulfilledAuth, pendingAuth, rejectedAuth, userLogout, resetAuth} from "../../services/slices/auth";
+import ProfileForm from "../../components/profile-form/ProfileForm";
 
 function ProfilePage() {
   const dispatch = useDispatch();
-  const {user} = useSelector(state => state.auth);
-  const [password, setPassword] = useState('');
-  const [isPasChanged, setIsPasChanged] = useState(false);
-  const [email, setEmail] = useState(user.email);
-  const [name, setName] = useState(user.name);
-
-  const changePas = (e) => {
-    setIsPasChanged(true);
-    setPassword(e.target.value);
-  };
-
-  const onCancel = () => {
-    setName(user.name);
-    setEmail(user.email);
-    setPassword('');
-  }
-
-  const saveUserInfo = async () => {
-    if (!password || !email || !name) {
-      toast.error(TEXT_ERROR_NOT_FILLED_FIELDS, {
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-      return;
-    }
-    dispatch(pendingAuth());
-    dispatch(await updateLogin({password, email, name}))
-        .then((res) => {
-          if (res.payload.data.success) {
-            dispatch(setUser(res.payload.data));
-            dispatch(fulfilledAuth());
-            toast.success('Данные успешно обновлены', {
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              theme: "light",
-            });
-          }
-        }).catch(err => dispatch(rejectedAuth()));
-  };
 
   const logout = async () => {
     let isLogout = window.confirm("Действительно хотите выйти из аккаунта?");
@@ -115,37 +67,7 @@ function ProfilePage() {
           <section className={ProfileStyles.profile__body}>
             <Switch>
               <Route path="/profile" exact={true}>
-                <Input type={'text'}
-                       placeholder={'Имя'}
-                       onChange={e => setName(e.target.value)}
-                       value={name}
-                       extraClass='mb-6'
-                       name={'name'}
-                       size={'default'}/>
-                <EmailInput onChange={(e) => setEmail(e.target.value)}
-                            name={'email'}
-                            extraClass='mb-6'
-                            value={email}/>
-                <PasswordInput onChange={(e) => changePas(e)}
-                               name={'password'}
-                               extraClass='mb-6'
-                               value={password}/>
-                {((isPasChanged && password) && (name !== user.name || email !== user.email)) && (
-                    <div className={ProfileStyles.profile__flexEnd}>
-                      <Button type="secondary"
-                              onClick={() => onCancel()}
-                              size="small"
-                              htmlType={"button"}>
-                        Отменить
-                      </Button>
-                      <Button type="primary"
-                              onClick={() => saveUserInfo()}
-                              size="medium"
-                              htmlType={"button"}>
-                        Сохранить
-                      </Button>
-                    </div>
-                )}
+                <ProfileForm/>
               </Route>
               <Route path="/profile/orders" exact={true}>
                 История заказов
