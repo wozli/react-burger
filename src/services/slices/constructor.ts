@@ -1,7 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {TYPE_INGREDIENTS} from "../../components/utils/constants";
+import type {TIngredient} from "../../components/utils/types";
 
-const initialState = {
+type TInitialState = {
+  ingredients: TIngredient[],
+  bun: TIngredient | null,
+  totalPrice: number
+}
+
+const initialState:TInitialState = {
   ingredients: [],
   bun: null,
   totalPrice: 0

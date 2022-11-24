@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link, Redirect, useHistory} from 'react-router-dom';
 import {PasswordInput, Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 import {
   changeAccessPageResetPas,
   fulfilledAuth,
@@ -12,12 +12,12 @@ import {toast} from "react-toastify";
 
 function ResetPasswordPage() {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const {user, accessPageResetPas, userRequest} = useSelector(state => state.auth);
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
+  const dispatch = useAppDispatch();
+  const {user, accessPageResetPas, userRequest} = useAppSelector(state => state.auth);
+  const [password, setPassword] = useState<string>('');
+  const [token, setToken] = useState<string>('');
 
-  const sendNewPas = async () => {
+  const sendNewPas = () => {
     if (!token || !password) {
       toast.error('Ошибка, возможно введен не правильный код или не корректный пароль!', {
         autoClose: 5000,
@@ -30,10 +30,10 @@ function ResetPasswordPage() {
       return;
     }
     dispatch(pendingAuth());
-    dispatch(await resetPassword({password, token}))
+    dispatch(resetPassword({password, token}))
         .then((res) => {
           dispatch(fulfilledAuth());
-          if (res.payload.data.success) {
+          if (res.payload.success) {
             toast.success('Пароль изменен, авторизуйтесь!', {
               autoClose: 5000,
               hideProgressBar: false,

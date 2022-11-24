@@ -1,16 +1,16 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, FC} from 'react';
 import ProductCardStyles from './ProductCard.module.scss';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDrag} from "react-dnd";
-import {PROP_INGREDIENTS} from "../utils/propTypes";
 import classNames from "classnames";
-import {useSelector} from "react-redux";
+import {useAppSelector} from "../../services/hooks";
 import {TYPE_INGREDIENTS} from "../utils/constants";
 import {useLocation, Link} from 'react-router-dom';
+import type {TIngredient} from "../utils/types";
 
-function ProductCard({product}) {
+const ProductCard:FC<{product:TIngredient}> = ({product}) => {
   const location = useLocation();
-  const {ingredients, bun} = useSelector(state => state.constructorReducer);
+  const {ingredients, bun} = useAppSelector(state => state.constructorReducer);
 
   const [{isDrag}, dragRef] = useDrag({
     type: 'ingredient',
@@ -20,7 +20,7 @@ function ProductCard({product}) {
     })
   });
 
-  const countInCart = useMemo(() => {
+  const countInCart:number = useMemo(() => {
     if (product.type === TYPE_INGREDIENTS.BUN && bun?._id) {
       return bun._id === product._id ? 2 : 0;
     }
@@ -60,9 +60,5 @@ function ProductCard({product}) {
       </Link>
   );
 }
-
-ProductCard.propTypes = {
-  product: PROP_INGREDIENTS.isRequired,
-};
 
 export default ProductCard;

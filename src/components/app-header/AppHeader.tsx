@@ -13,14 +13,12 @@ function AppHeader() {
           <MenuItem to={'/'}
                     exact={true}
                     text='Конструктор'><BurgerIcon type={location.pathname === '/' ? 'primary' : 'secondary'}/> </MenuItem>
-          <MenuItem icon='list'
-                    exact={true}
+          <MenuItem exact={true}
                     to={'/orders-feed'}
                     classes='ml-2'
                     text='Лента заказов'><ListIcon type={location.pathname === '/orders-feed' ? 'primary' : 'secondary'}/></MenuItem>
           <div className={`${HeaderStyles.header__logo}`}><Logo/></div>
-          <MenuItem icon='profile'
-                    exact={false}
+          <MenuItem exact={false}
                     to={'/profile'}
                     classes='ml-auto'
                     text='Личный кабинет'><ProfileIcon type={location.pathname === '/profile' ? 'primary' : 'secondary'}/></MenuItem>

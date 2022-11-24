@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useDrop} from "react-dnd";
 import { Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './BurgerConstructor.module.scss';
-import {useDispatch, useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 import {getOrderInfo} from "../../services/slices/order";
 import Modal from "../common/modal/Modal";
 import OrderDetails from "../order-details/OrderDetails";
@@ -12,22 +12,23 @@ import {resetOrder} from "../../services/slices/order";
 import {addCartIngredient, resetCart, deleteCartIngredient, updateListIngredients} from "../../services/slices/constructor";
 import {toast} from "react-toastify";
 import {useHistory} from "react-router-dom";
+import type {TIngredient} from "../utils/types";
 
 function BurgerConstructor() {
   const history = useHistory();
-  const {user} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
-  const {order, openModalOrder} = useSelector(state => state.order);
-  const {ingredients, bun, totalPrice} = useSelector(state => state.constructorReducer);
+  const {user} = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+  const {order, openModalOrder} = useAppSelector(state => state.order);
+  const {ingredients, bun, totalPrice} = useAppSelector(state => state.constructorReducer);
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(item) {
+    drop(item:TIngredient) {
       handlerAddCartIngredient(item);
     },
   });
 
-  const moveCard = useCallback((dragIndex, hoverIndex) => {
+  const moveCard = useCallback((dragIndex:number, hoverIndex:number) => {
     const dragCard = ingredients[dragIndex];
     const newCards = [...ingredients];
     newCards.splice(dragIndex, 1);
@@ -38,11 +39,11 @@ function BurgerConstructor() {
 
   const notEmptyIngredients = (bun && bun._id) || (ingredients && ingredients.length);
 
-  const handlerAddCartIngredient = (ingredient) => {
+  const handlerAddCartIngredient = (ingredient:TIngredient) => {
     dispatch(addCartIngredient(ingredient));
   }
 
-  const handleDeleteCartIngredient = (item, index) => {
+  const handleDeleteCartIngredient = (item:TIngredient, index:number) => {
     dispatch(deleteCartIngredient({item, index}));
   }
 
@@ -60,7 +61,7 @@ function BurgerConstructor() {
       return;
     }
     if (bun?._id) {
-      dispatch(await getOrderInfo([bun._id, ...ingredients.map(ingredient => ingredient._id), bun._id]));
+      dispatch(getOrderInfo([bun._id, ...ingredients.map(ingredient => ingredient._id), bun._id]));
     } else {
       toast.error(TEXT_ERROR_NO_BUN, {
         autoClose: 5000,
@@ -91,15 +92,14 @@ function BurgerConstructor() {
                 <OrderedItem item={bun}
                              isBun={true}
                              type='top'
-                             moveCard={moveCard}
-                             deleteCartIngredient={handleDeleteCartIngredient}/>
+                             moveCard={moveCard}/>
             )}
             <div className={`${BurgerConstructorStyles.list} custom-scroll`}>
               {ingredients.map((item, index) => (
                   <OrderedItem item={item}
                                key={`${item._id}${index}`}
                                isBun={false}
-                               type='middle'
+                               type={undefined}
                                index={index}
                                moveCard={moveCard}
                                deleteCartIngredient={handleDeleteCartIngredient}/>
@@ -109,8 +109,7 @@ function BurgerConstructor() {
                 <OrderedItem item={bun}
                              isBun={true}
                              type='bottom'
-                             moveCard={moveCard}
-                             deleteCartIngredient={handleDeleteCartIngredient}/>
+                             moveCard={moveCard}/>
             )}
           </div>
           <div className={BurgerConstructorStyles.footer}>
@@ -124,7 +123,7 @@ function BurgerConstructor() {
                     size="large">Оформить заказ</Button>
           </div>
         </section>
-        {openModalOrder && (
+        {(openModalOrder && order) && (
             <Modal onClose={handlerCloseModalOrder}>
               <OrderDetails order={order}/>
             </Modal>

@@ -10,19 +10,23 @@ import './styles/index.scss';
 import App from './components/app/App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-    document.getElementById('root')
-);
+const rootElement = document.getElementById('root');
+if (!rootElement) throw new Error('Failed to find the root element');
+const root = ReactDOM.createRoot(rootElement);
 
 const store = configureStore({
-  reducer: rootReducer,
-  middleware: [logger, thunk],
-  devTools: process.env.NODE_ENV !== 'production',
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(logger, thunk),
+    devTools: process.env.NODE_ENV !== 'production',
 });
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
 
 root.render(
     <Provider store={store}>
-      <App/>
+        <App/>
     </Provider>
 );
 

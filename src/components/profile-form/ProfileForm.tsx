@@ -1,31 +1,33 @@
 import React, {useState} from 'react';
 import ProfileFormStyles from './ProfileForm.module.scss'
 import {EmailInput, Input, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
-import {fulfilledAuth, pendingAuth, rejectedAuth, setUser, updateLogin} from "../../services/slices/auth";
+import {fulfilledAuth, pendingAuth, rejectedAuth, setUser, TUser, updateLogin} from "../../services/slices/auth";
 import {toast} from "react-toastify";
 import {TEXT_ERROR_NOT_FILLED_FIELDS} from "../utils/constants";
+import {useAppSelector, useAppDispatch} from "../../services/hooks";
+
+type TNewInfo = TUser & {password?:string}
 
 function ProfileForm() {
-  const dispatch = useDispatch();
-  const {user} = useSelector(state => state.auth);
-  const [password, setPassword] = useState('');
-  const [isPasChanged, setIsPasChanged] = useState(false);
-  const [email, setEmail] = useState(user.email);
-  const [name, setName] = useState(user.name);
+  const dispatch = useAppDispatch();
+  const {user} = useAppSelector(state => state.auth);
+  const [password, setPassword] = useState<string>('');
+  const [isPasChanged, setIsPasChanged] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>(user ? user.email : '');
+  const [name, setName] = useState<string>(user ? user.name : '');
 
-  const changePas = (e) => {
+  const changePas = (e:React.ChangeEvent<HTMLInputElement>) => {
     setIsPasChanged(true);
     setPassword(e.target.value);
   };
 
   const onCancel = () => {
-    setName(user.name);
-    setEmail(user.email);
+    setName(user ? user.name : '');
+    setEmail(user ? user.email : '');
     setPassword('');
   }
 
-  const saveUserInfo = async () => {
+  const saveUserInfo = () => {
     if ((!password && isPasChanged) || !email || !name) {
       toast.error(TEXT_ERROR_NOT_FILLED_FIELDS, {
         autoClose: 5000,
@@ -37,15 +39,15 @@ function ProfileForm() {
       });
       return;
     }
-    const newInfo = {email, name};
+    const newInfo:TNewInfo = {email, name};
     if (password && isPasChanged) {
       newInfo.password = password
     }
     dispatch(pendingAuth());
-    dispatch(await updateLogin(newInfo))
+    dispatch(updateLogin(newInfo))
         .then((res) => {
-          if (res.payload.data.success) {
-            dispatch(setUser(res.payload.data));
+          if (res.payload.success) {
+            dispatch(setUser(res.payload));
             dispatch(fulfilledAuth());
             toast.success('Данные успешно обновлены', {
               autoClose: 5000,
@@ -76,7 +78,7 @@ function ProfileForm() {
                        name={'password'}
                        extraClass='mb-6'
                        value={password}/>
-        {((isPasChanged && password) || (name !== user.name || email !== user.email)) && (
+        {((isPasChanged && password) || (name !== (user ? user.name : '') || email !== (user ? user.email : ''))) && (
             <div className={ProfileFormStyles.profileForm__footer}>
               <Button type="secondary"
                       onClick={() => onCancel()}

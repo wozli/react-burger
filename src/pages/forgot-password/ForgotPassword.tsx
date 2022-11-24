@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Link, Redirect, useHistory} from 'react-router-dom';
 import {EmailInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
 import {
   fulfilledAuth,
   pendingAuth,
@@ -9,12 +8,13 @@ import {
   changeAccessPageResetPas, forgotPassword
 } from "../../services/slices/auth";
 import {toast} from "react-toastify";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 function ForgotPasswordPage() {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const {user, userRequest} = useSelector(state => state.auth);
-  const [email, setEmail] = useState('');
+  const dispatch = useAppDispatch();
+  const {user, userRequest} = useAppSelector(state => state.auth);
+  const [email, setEmail] = useState<string>('');
 
   const sendResetPassword = async () => {
     if (!email) {
@@ -29,10 +29,10 @@ function ForgotPasswordPage() {
       return;
     }
     dispatch(pendingAuth());
-    dispatch(await forgotPassword({email}))
+    dispatch(forgotPassword({email}))
         .then((res) => {
           dispatch(fulfilledAuth());
-          if (res.payload.data.success) {
+          if (res.payload.success) {
             dispatch(changeAccessPageResetPas());
             history.replace({ pathname: '/reset-password' });
           } else {

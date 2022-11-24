@@ -1,7 +1,13 @@
 import React from 'react';
 import classNames from "classnames";
 
-function Title(props) {
+type TTitleProps = {
+  text: string,
+  classes: string,
+  type: 'medium' | 'large'
+}
+
+function Title(props: TTitleProps) {
   const titleClass = classNames( 'text', {
     'text_type_main-large': props.type === 'large',
     'text_type_main-medium': props.type === 'medium',

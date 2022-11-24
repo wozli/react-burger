@@ -1,9 +1,9 @@
 import React from 'react';
 import Icon from './../../images/done.png';
 import OrderDetailsStyles from './OrderDetails.module.scss';
-import {PROP_ORDER} from "../utils/propTypes";
+import type {TOrder} from "../../services/slices/order";
 
-function OrderDetails({order}) {
+function OrderDetails({order}:{ order:TOrder }) {
 
   return (
       <div className={OrderDetailsStyles.order}>
@@ -25,9 +25,5 @@ function OrderDetails({order}) {
       </div>
   );
 }
-
-OrderDetails.propTypes = {
-  order: PROP_ORDER.isRequired
-};
 
 export default OrderDetails;

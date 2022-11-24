@@ -1,16 +1,12 @@
 import React from 'react';
 import ModalOverlayStyles from './ModalOverlay.module.scss';
-import PropTypes from "prop-types";
+import {TOnClose} from "../../Modal";
 
-function ModalOverlay({onClick}) {
+function ModalOverlay({onClick}: {onClick: TOnClose}) {
 
   return (
       <div className={ModalOverlayStyles.overlay} onClick={onClick}></div>
   );
 }
-
-ModalOverlay.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
 
 export default ModalOverlay;

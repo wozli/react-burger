@@ -1,11 +1,18 @@
-import React from 'react';
-import PropTypes from "prop-types";
+import React, {FC} from 'react';
 import CategoryItemStyles from "./CategoryItem.module.scss";
 import Title from "../common/title/Title";
 import ProductCard from "../product-card/ProductCard";
-import {PROP_INGREDIENTS} from "../utils/propTypes";
+import type {TIngredient} from "../utils/types";
+import type {TIngredientsCategories} from "../utils/types";
+import { DOMAttributes } from "react";
 
-function CategoryItem({category}) {
+declare module 'react' {
+    interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+        name?: string;
+    }
+}
+
+export const CategoryItem: FC<{category:TIngredientsCategories}> = ({category}) => {
   return (
       <div className={CategoryItemStyles.category}
            ref={category.ref}
@@ -14,7 +21,7 @@ function CategoryItem({category}) {
                classes='mb-6'
                text={category.text}/>
         <div className={CategoryItemStyles.grid}>
-          {category.items.map(product => (
+          {category.items.map((product:TIngredient) => (
               <ProductCard key={product._id}
                            product={product}/>
           ))}
@@ -22,13 +29,5 @@ function CategoryItem({category}) {
       </div>
   )
 }
-
-CategoryItem.propTypes = {
-  category: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PROP_INGREDIENTS.isRequired).isRequired
-  }),
-};
 
 export default CategoryItem;

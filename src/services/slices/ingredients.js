@@ -6,7 +6,8 @@ import {TEXT_ERROR_REQUEST} from "../../components/utils/constants";
 export const getIngredients = createAsyncThunk(
     "ingredients/getIngredients",
     async () => {
-      return await getRequest(GET_INGREDIENTS);
+      const response = await getRequest(GET_INGREDIENTS);
+      return response.data;
     }
 );
 
@@ -26,7 +27,7 @@ export const ingredientsSlice = createSlice({
       state.currentIngredient = action.payload;
       state.openModalIngredient = true;
     },
-    closeModalIngredient: (state, action) => {
+    closeModalIngredient: (state) => {
       state.currentIngredient = null;
       state.openModalIngredient = false;
     },
@@ -39,7 +40,7 @@ export const ingredientsSlice = createSlice({
     [getIngredients.fulfilled]: (state, {payload}) => {
       state.ingredientsRequest = false;
       state.ingredientsFailed = false;
-      state.ingredients = payload.data.data;
+      state.ingredients = payload.data;
     },
     [getIngredients.rejected]: (state) => {
       state.ingredientsRequest = false;

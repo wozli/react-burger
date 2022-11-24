@@ -4,17 +4,17 @@ import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-b
 import {toast} from "react-toastify";
 import {TEXT_ERROR_NOT_FILLED_FIELDS} from "../../components/utils/constants";
 import {userLogin, pendingAuth, rejectedAuth, fulfilledAuth, setUser} from "../../services/slices/auth";
-import {useDispatch, useSelector} from "react-redux";
 import { useHistory } from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 function LoginPage() {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const {userRequest} = useSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const {userRequest} = useAppSelector(state => state.auth);
 
-  const sendLogin = async () => {
+  const sendLogin = () => {
     if (!password || !email) {
       toast.error(TEXT_ERROR_NOT_FILLED_FIELDS, {
         autoClose: 5000,
@@ -27,10 +27,10 @@ function LoginPage() {
       return;
     }
     dispatch(pendingAuth());
-    dispatch(await userLogin({password, email}))
+    dispatch(userLogin({password, email}))
         .then((res) => {
-          if (res.payload.data.success) {
-            dispatch(setUser(res.payload.data));
+          if (res.payload.success) {
+            dispatch(setUser(res.payload));
             dispatch(fulfilledAuth());
             history.replace({ pathname: '/' });
           }

@@ -2,23 +2,23 @@ import React from 'react';
 import ProfileStyles from './Profile.module.scss'
 import {NavLink} from 'react-router-dom';
 import {Switch, Route} from 'react-router-dom';
-import {useDispatch} from "react-redux";
 import {fulfilledAuth, pendingAuth, rejectedAuth, userLogout, resetAuth} from "../../services/slices/auth";
 import ProfileForm from "../../components/profile-form/ProfileForm";
+import {useAppDispatch} from "../../services/hooks";
 
 function ProfilePage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const logout = async () => {
+  const logout = () => {
     let isLogout = window.confirm("Действительно хотите выйти из аккаунта?");
     if (!isLogout) {
       return;
     }
 
     dispatch(pendingAuth());
-    dispatch(await userLogout())
+    dispatch(userLogout())
         .then((res) => {
-          if (res.payload.data.success) {
+          if (res.payload.success) {
            dispatch(resetAuth());
            dispatch(fulfilledAuth());
           }

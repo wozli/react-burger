@@ -13,14 +13,20 @@ import {
 import Loader from "../common/loader/loader";
 import {ToastContainer} from 'react-toastify';
 import AppStyles from './App.module.scss';
-import {useDispatch, useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 import {ProtectedRoute} from "../common/protected-router/ProtectedRouter";
 import {getUser} from "../../services/slices/auth";
 import Modal from "../common/modal/Modal";
 import IngredientDetails from "../ingredient-details/IngredientDetails";
+import {Location} from "history";
+
+
+type TLocationState = {
+  background: Location
+}
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const init = async () => {
     if (localStorage.getItem('refreshToken')) {
@@ -33,11 +39,11 @@ function App() {
   }, []);
 
   const ModalSwitch = () => {
-    const location = useLocation();
+    const location = useLocation<TLocationState>();
     const history = useHistory();
-    const {orderRequest} = useSelector(state => state.order);
-    const {ingredientsRequest} = useSelector(state => state.ingredients);
-    const {authRequest, userRequest} = useSelector(state => state.auth);
+    const {orderRequest} = useAppSelector(state => state.order);
+    const {ingredientsRequest} = useAppSelector(state => state.ingredients);
+    const {authRequest, userRequest} = useAppSelector(state => state.auth);
 
     const background = location.state && location.state.background;
 

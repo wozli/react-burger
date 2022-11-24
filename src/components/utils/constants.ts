@@ -1,4 +1,6 @@
-export const TYPE_INGREDIENTS = {
+import type {TTab} from "./types";
+
+export const TYPE_INGREDIENTS:{[name:string]: TTab} = {
   BUN: 'bun',
   SAUCE: 'sauce',
   MAIN: 'main',

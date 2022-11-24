@@ -1,21 +1,21 @@
 import React, {useState} from 'react';
 import {Link, Redirect, useHistory, useLocation} from 'react-router-dom';
 import {EmailInput, PasswordInput, Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from 'react-redux';
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 import {userRegister, pendingAuth, rejectedAuth, fulfilledAuth, setUser} from "../../services/slices/auth";
 import { toast } from 'react-toastify';
 import {TEXT_ERROR_NOT_FILLED_FIELDS} from "../../components/utils/constants";
 
 function RegisterPage() {
-  const { state } = useLocation();
-  const dispatch = useDispatch();
+  const { state } = useLocation<{from:string}>();
+  const dispatch = useAppDispatch();
   const history = useHistory();
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const {user, userRequest} = useSelector(state => state.auth);
+  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const {user, userRequest} = useAppSelector(state => state.auth);
 
-  const sendRegister = async () => {
+  const sendRegister = () => {
     if (!password || !email || !name) {
       toast.error(TEXT_ERROR_NOT_FILLED_FIELDS, {
         autoClose: 5000,
@@ -30,8 +30,8 @@ function RegisterPage() {
     dispatch(pendingAuth());
     dispatch(userRegister({password, email, name}))
         .then((res) => {
-          if (res.payload.data.success) {
-            dispatch(setUser(res.payload.data));
+          if (res.payload.success) {
+            dispatch(setUser(res.payload));
             dispatch(fulfilledAuth());
             history.replace({ pathname: '/' });
           }

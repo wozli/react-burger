@@ -1,14 +1,21 @@
-import React, {useRef} from 'react';
-import {useDrop, useDrag} from "react-dnd";
+import React, {useRef, FC} from 'react';
+import {useDrop, useDrag, XYCoord} from "react-dnd";
 import OrderedItemStyles from './OrderedItem.module.scss';
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {PROP_INGREDIENTS} from "../utils/propTypes";
+import type {TIngredient} from "../utils/types";
 
+type TOrderedItemProps = {
+  item: TIngredient,
+  type: 'top' | undefined | 'bottom',
+  isBun: boolean,
+  deleteCartIngredient?: (item:TIngredient, index:number) => void,
+  index?: number,
+  moveCard: (dragIndex:number, hoverIndex:number) => void,
+}
 
-function OrderedItem({item, type, isBun, deleteCartIngredient, index, moveCard}) {
-  const ref = useRef(null);
+const OrderedItem:FC<TOrderedItemProps> = ({item, type, isBun, deleteCartIngredient, index, moveCard}) => {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [{ handlerId }, drop] = useDrop({
     accept: 'component',
     collect(monitor) {
@@ -16,19 +23,20 @@ function OrderedItem({item, type, isBun, deleteCartIngredient, index, moveCard})
         handlerId: monitor.getHandlerId()
       }
     },
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
       const dragIndex = item.index;
-      const hoverIndex = index;
+      const hoverIndex = index ? index : 0;
       if (dragIndex === hoverIndex) {
         return;
       }
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const clientOffset: XYCoord | null = monitor.getClientOffset();
+
+      const hoverClientY = clientOffset ? clientOffset.y - hoverBoundingRect.top : 0;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -42,13 +50,13 @@ function OrderedItem({item, type, isBun, deleteCartIngredient, index, moveCard})
 
   const [{ isDragging }, drag] = useDrag({
     type: 'component',
-    item: () => ({ id: item.id, index }),
+    item: () => ({ id: item._id, index }),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
   if (!isBun) drag(drop(ref));
-  const preventDefault = (e) => e.preventDefault();
+  const preventDefault = (e: React.SyntheticEvent) => e.preventDefault();
 
   const mainClass = classNames( {
     [OrderedItemStyles.item]: true,
@@ -68,7 +76,7 @@ function OrderedItem({item, type, isBun, deleteCartIngredient, index, moveCard})
             </div>
         )}
         <ConstructorElement text={`${item.name} ${type === 'top' ? '(верх)' : type === 'bottom' ? '(низ)' : ''}`}
-                            handleClose={() => deleteCartIngredient(item, index)}
+                            handleClose={() => deleteCartIngredient && (index === 0 || !!index) ? deleteCartIngredient(item, index) : null}
                             thumbnail={item.image}
                             type={type}
                             isLocked={isBun}
@@ -76,14 +84,5 @@ function OrderedItem({item, type, isBun, deleteCartIngredient, index, moveCard})
       </div>
   );
 }
-
-OrderedItem.propTypes = {
-  item: PROP_INGREDIENTS.isRequired,
-  type: PropTypes.string.isRequired,
-  isBun: PropTypes.bool.isRequired,
-  index: PropTypes.number,
-  deleteCartIngredient: PropTypes.func.isRequired,
-  moveCard: PropTypes.func.isRequired,
-};
 
 export default OrderedItem;
