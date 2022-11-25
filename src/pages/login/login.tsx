@@ -28,9 +28,10 @@ function LoginPage() {
     }
     dispatch(pendingAuth());
     dispatch(userLogin({password, email}))
+        .unwrap()
         .then((res) => {
-          if (res.payload.success) {
-            dispatch(setUser(res.payload));
+          if (res.success) {
+            dispatch(setUser(res));
             dispatch(fulfilledAuth());
             history.replace({ pathname: '/' });
           }

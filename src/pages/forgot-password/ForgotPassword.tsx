@@ -30,9 +30,10 @@ function ForgotPasswordPage() {
     }
     dispatch(pendingAuth());
     dispatch(forgotPassword({email}))
+        .unwrap()
         .then((res) => {
           dispatch(fulfilledAuth());
-          if (res.payload.success) {
+          if (res.success) {
             dispatch(changeAccessPageResetPas());
             history.replace({ pathname: '/reset-password' });
           } else {

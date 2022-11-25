@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, FC} from 'react';
 import * as ReactDOM from 'react-dom';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from "./components/modal-overlay/ModalOverlay";
@@ -9,11 +9,11 @@ const modalElement:HTMLElement | null = document.querySelector('#react-modals');
 export type TOnClose = () => void;
 
 type TModalProps = {
-  children: React.ReactNode,
-  onClose: TOnClose
+  onClose: TOnClose,
+  children: React.ReactNode
 }
 
-function Modal({children, onClose}: TModalProps) {
+const Modal:FC<TModalProps> = ({children, onClose}) => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent):void => {

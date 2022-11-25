@@ -23,3 +23,10 @@ export type TIngredientsCategories = {
     items: TIngredient[],
     ref: React.LegacyRef<HTMLDivElement> | undefined
 }
+
+export type TUser = {
+    email: string,
+    name: string,
+}
+
+export type TNewInfo = TUser & {password?: string}

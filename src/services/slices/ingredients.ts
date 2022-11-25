@@ -1,17 +1,27 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {getRequest} from "../../components/utils/requests";
 import {GET_INGREDIENTS} from "../../components/utils/api";
 import {TEXT_ERROR_REQUEST} from "../../components/utils/constants";
+import axios from "axios";
+import type {TIngredient} from "../../components/utils/types";
 
 export const getIngredients = createAsyncThunk(
     "ingredients/getIngredients",
     async () => {
-      const response = await getRequest(GET_INGREDIENTS);
+      const response = await axios.get<{data: TIngredient[], success: boolean}>(GET_INGREDIENTS);
       return response.data;
     }
 );
 
-const initialState = {
+type TInitialState = {
+  ingredients: TIngredient[],
+  ingredientsRequest: boolean,
+  ingredientsFailed: boolean,
+  currentIngredient: TIngredient | null,
+  openModalIngredient: boolean,
+};
+
+
+const initialState:TInitialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
@@ -32,21 +42,21 @@ export const ingredientsSlice = createSlice({
       state.openModalIngredient = false;
     },
   },
-  extraReducers: {
-    [getIngredients.pending]: (state) => {
-        state.ingredientsRequest = true;
-        state.ingredientsFailed = false;
-    },
-    [getIngredients.fulfilled]: (state, {payload}) => {
+  extraReducers: (builder) => {
+    builder.addCase(getIngredients.pending, (state) => {
+      state.ingredientsRequest = true;
+      state.ingredientsFailed = false;
+    })
+    builder.addCase(getIngredients.fulfilled, (state, {payload}) => {
       state.ingredientsRequest = false;
       state.ingredientsFailed = false;
       state.ingredients = payload.data;
-    },
-    [getIngredients.rejected]: (state) => {
+    })
+    builder.addCase(getIngredients.rejected, (state, {payload}) => {
       state.ingredientsRequest = false;
       state.ingredientsFailed = true;
       alert(TEXT_ERROR_REQUEST);
-    },
+    })
   },
 });
 

@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import ProfileFormStyles from './ProfileForm.module.scss'
 import {EmailInput, Input, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {fulfilledAuth, pendingAuth, rejectedAuth, setUser, TUser, updateLogin} from "../../services/slices/auth";
+import {fulfilledAuth, pendingAuth, rejectedAuth, setUser, updateLogin} from "../../services/slices/auth";
 import {toast} from "react-toastify";
 import {TEXT_ERROR_NOT_FILLED_FIELDS} from "../utils/constants";
 import {useAppSelector, useAppDispatch} from "../../services/hooks";
-
-type TNewInfo = TUser & {password?:string}
+import type {TNewInfo} from "../utils/types";
 
 function ProfileForm() {
   const dispatch = useAppDispatch();
@@ -45,9 +44,10 @@ function ProfileForm() {
     }
     dispatch(pendingAuth());
     dispatch(updateLogin(newInfo))
+        .unwrap()
         .then((res) => {
-          if (res.payload.success) {
-            dispatch(setUser(res.payload));
+          if (res.success) {
+            dispatch(setUser(res));
             dispatch(fulfilledAuth());
             toast.success('Данные успешно обновлены', {
               autoClose: 5000,

@@ -31,9 +31,10 @@ function ResetPasswordPage() {
     }
     dispatch(pendingAuth());
     dispatch(resetPassword({password, token}))
+        .unwrap()
         .then((res) => {
           dispatch(fulfilledAuth());
-          if (res.payload.success) {
+          if (res.success) {
             toast.success('Пароль изменен, авторизуйтесь!', {
               autoClose: 5000,
               hideProgressBar: false,

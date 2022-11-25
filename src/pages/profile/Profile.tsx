@@ -17,8 +17,9 @@ function ProfilePage() {
 
     dispatch(pendingAuth());
     dispatch(userLogout())
+        .unwrap()
         .then((res) => {
-          if (res.payload.success) {
+          if (res.success) {
            dispatch(resetAuth());
            dispatch(fulfilledAuth());
           }
