@@ -14,9 +14,9 @@ function AppHeader() {
                     exact={true}
                     text='Конструктор'><BurgerIcon type={location.pathname === '/' ? 'primary' : 'secondary'}/> </MenuItem>
           <MenuItem exact={true}
-                    to={'/orders-feed'}
+                    to={'/feed'}
                     classes='ml-2'
-                    text='Лента заказов'><ListIcon type={location.pathname === '/orders-feed' ? 'primary' : 'secondary'}/></MenuItem>
+                    text='Лента заказов'><ListIcon type={location.pathname === '/feed' ? 'primary' : 'secondary'}/></MenuItem>
           <div className={`${HeaderStyles.header__logo}`}><Logo/></div>
           <MenuItem exact={false}
                     to={'/profile'}

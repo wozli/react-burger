@@ -1,0 +1,24 @@
+.feedTable {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  &__col {
+    width: 100%;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__list {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    max-height: 125px;
+  }
+
+  &__done {
+    color: #00CCCC;
+  }
+}

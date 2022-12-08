@@ -6,7 +6,8 @@ import thunk from 'redux-thunk';
 import {configureStore} from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import './styles/index.scss';
-
+import {createSocketMiddleware} from "./services/middleware/socket-middleware";
+import {wsActions} from "./services/live-feed/actions";
 import App from './components/app/App';
 import reportWebVitals from './reportWebVitals';
 
@@ -14,15 +15,17 @@ const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
 const root = ReactDOM.createRoot(rootElement);
 
+const websocketMiddleware = createSocketMiddleware(wsActions);
+
 const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(logger, thunk),
+        getDefaultMiddleware().concat( thunk, websocketMiddleware),
     devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof rootReducer>
 
 root.render(
     <Provider store={store}>

@@ -8,3 +8,5 @@ export const GET_USER = 'https://norma.nomoreparties.space/api/auth/user';
 export const UPDATE_USER = 'https://norma.nomoreparties.space/api/auth/user';
 export const RESET_PASSWORD = 'https://norma.nomoreparties.space/api/password-reset';
 export const NEW_PASSWORD = 'https://norma.nomoreparties.space/api/password-reset/reset';
+export const WS_ALL = 'wss://norma.nomoreparties.space/orders/all';
+export const WS_PROFILE = 'wss://norma.nomoreparties.space/orders';

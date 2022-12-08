@@ -5,6 +5,8 @@ import {Switch, Route} from 'react-router-dom';
 import {fulfilledAuth, pendingAuth, rejectedAuth, userLogout, resetAuth} from "../../services/slices/auth";
 import ProfileForm from "../../components/profile-form/ProfileForm";
 import {useAppDispatch} from "../../services/hooks";
+import ProfileOrders from "../profile-orders/ProfileOrders";
+import FeedDetails from "../../components/feed-details/FeedDetails";
 
 function ProfilePage() {
   const dispatch = useAppDispatch();
@@ -71,7 +73,10 @@ function ProfilePage() {
                 <ProfileForm/>
               </Route>
               <Route path="/profile/orders" exact={true}>
-                История заказов
+                <ProfileOrders/>
+              </Route>
+              <Route path="/profile/orders/:id" exact={true}>
+                <FeedDetails/>
               </Route>
             </Switch>
           </section>
