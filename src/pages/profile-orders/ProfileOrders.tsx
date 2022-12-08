@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import Styles from './ProfileOrders.module.scss';
 import {useAppDispatch, useAppSelector} from "../../services/hooks";
 import {connect as connectLiveProfile, disconnect as disconnectLiveProfile} from "../../services/live-feed/actions";
-import {WebsocketStatus} from "../../components/utils/socket-types";
 import FeedItem from "../../components/feed-item/FeedItem";
 import {getIngredients} from "../../services/slices/ingredients";
 import {WS_PROFILE} from "../../components/utils/api";
@@ -10,7 +9,7 @@ import {getCookie} from "../../components/utils/cookie";
 
 function ProfileOrdersPage() {
     const dispatch = useAppDispatch();
-    const {feed, status} = useAppSelector(state => state.feed);
+    const {feed} = useAppSelector(state => state.feed);
     const {ingredients} = useAppSelector(state => state.ingredients);
 
     useEffect((): any => {

@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import FeedStyles from './Feed.module.scss';
 import {useAppDispatch, useAppSelector} from "../../services/hooks";
 import {connect as connectLiveFeed, disconnect as disconnectLiveFeed} from "../../services/live-feed/actions";
-import {WebsocketStatus} from "../../components/utils/socket-types";
 import FeedItem from "../../components/feed-item/FeedItem";
 import {getIngredients} from "../../services/slices/ingredients";
 import FeedInfo from "../../components/feed-info/FeedInfo";
@@ -10,7 +9,7 @@ import {WS_ALL} from "../../components/utils/api";
 
 function FeedPage() {
     const dispatch = useAppDispatch();
-    const {feed, status} = useAppSelector(state => state.feed);
+    const {feed} = useAppSelector(state => state.feed);
     const {ingredients} = useAppSelector(state => state.ingredients);
 
     useEffect((): any => {

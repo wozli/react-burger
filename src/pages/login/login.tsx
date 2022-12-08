@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {toast} from "react-toastify";
@@ -6,16 +6,19 @@ import {TEXT_ERROR_NOT_FILLED_FIELDS} from "../../components/utils/constants";
 import {userLogin, pendingAuth, rejectedAuth, fulfilledAuth, setUser} from "../../services/slices/auth";
 import { useHistory } from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useForm} from "../../hooks/useForm";
 
 function LoginPage() {
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const [password, setPassword] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const {values, handleChange} = useForm({
+      password: '',
+      email: '',
+  });
   const {userRequest} = useAppSelector(state => state.auth);
 
   const sendLogin = () => {
-    if (!password || !email) {
+    if (!values.password || !values.email) {
       toast.error(TEXT_ERROR_NOT_FILLED_FIELDS, {
         autoClose: 5000,
         hideProgressBar: false,
@@ -27,7 +30,7 @@ function LoginPage() {
       return;
     }
     dispatch(pendingAuth());
-    dispatch(userLogin({password, email}))
+    dispatch(userLogin({password: values.password, email: values.email}))
         .unwrap()
         .then((res) => {
           if (res.success) {
@@ -45,14 +48,14 @@ function LoginPage() {
   return (
       <div className='form'>
         <h2 className={'text text_type_main-medium mb-6'}>Вход</h2>
-        <EmailInput onChange={(e) => setEmail(e.target.value)}
+        <EmailInput onChange={(e) => handleChange(e)}
                     name={'email'}
                     extraClass='mb-6'
-                    value={email}/>
-        <PasswordInput onChange={(e) => setPassword(e.target.value)}
+                    value={values.email}/>
+        <PasswordInput onChange={(e) => handleChange(e)}
                        name={'password'}
                        extraClass='mb-6'
-                       value={password}/>
+                       value={values.password}/>
         <Button type="primary"
                 onClick={() => sendLogin()}
                 htmlType='button'

@@ -3,6 +3,7 @@ import MenuItem from "../menu-item/MenuItem";
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import HeaderStyles from './AppHeader.module.scss';
 import {useLocation} from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
 function AppHeader() {
   const location = useLocation();
@@ -17,7 +18,7 @@ function AppHeader() {
                     to={'/feed'}
                     classes='ml-2'
                     text='Лента заказов'><ListIcon type={location.pathname === '/feed' ? 'primary' : 'secondary'}/></MenuItem>
-          <div className={`${HeaderStyles.header__logo}`}><Logo/></div>
+          <NavLink to='/' className={`${HeaderStyles.header__logo}`}><Logo/></NavLink>
           <MenuItem exact={false}
                     to={'/profile'}
                     classes='ml-auto'

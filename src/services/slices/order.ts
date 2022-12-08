@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {POST_ORDER} from "../../components/utils/api";
+import {BASE_URL, POST_ORDER} from "../../components/utils/api";
 import {TEXT_ERROR_REQUEST} from "../../components/utils/constants";
 import axios from "axios";
 import {getCookie} from "../../components/utils/cookie";
@@ -7,7 +7,7 @@ import {getCookie} from "../../components/utils/cookie";
 export const getOrderInfo = createAsyncThunk(
     "order/getOrderInfo",
     async (ingredientsId: string[]) => {
-        const response = await axios.post<{ name: string, success: boolean, order: TOrder }>(POST_ORDER, {
+        const response = await axios.post<{ name: string, success: boolean, order: TOrder }>(BASE_URL+POST_ORDER, {
             ingredients: ingredientsId,
         }, {
             headers: {

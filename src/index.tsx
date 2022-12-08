@@ -20,7 +20,7 @@ const websocketMiddleware = createSocketMiddleware(wsActions);
 const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat( thunk, websocketMiddleware),
+        getDefaultMiddleware().concat(logger, thunk, websocketMiddleware),
     devTools: process.env.NODE_ENV !== 'production',
 });
 
