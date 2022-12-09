@@ -21,6 +21,7 @@ import Modal from "../common/modal/Modal";
 import IngredientDetails from "../ingredient-details/IngredientDetails";
 import FeedDetails from "../feed-details/FeedDetails";
 import {Location} from "history";
+import {getIngredients} from "../../services/slices/ingredients";
 
 type TLocationState = {
     background: Location
@@ -51,6 +52,10 @@ function App() {
         const handleModalClose = () => {
             history.goBack();
         };
+
+        useEffect(() => {
+            dispatch(getIngredients());
+        }, []);
 
         return (
             <>

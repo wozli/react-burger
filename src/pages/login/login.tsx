@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FormEvent} from 'react';
 import { Link } from 'react-router-dom';
 import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {toast} from "react-toastify";
@@ -17,7 +17,8 @@ function LoginPage() {
   });
   const {userRequest} = useAppSelector(state => state.auth);
 
-  const sendLogin = () => {
+  const sendLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!values.password || !values.email) {
       toast.error(TEXT_ERROR_NOT_FILLED_FIELDS, {
         autoClose: 5000,
@@ -46,7 +47,7 @@ function LoginPage() {
   }
 
   return (
-      <div className='form'>
+      <form className='form' onSubmit={(e) => sendLogin(e)}>
         <h2 className={'text text_type_main-medium mb-6'}>Вход</h2>
         <EmailInput onChange={(e) => handleChange(e)}
                     name={'email'}
@@ -57,8 +58,7 @@ function LoginPage() {
                        extraClass='mb-6'
                        value={values.password}/>
         <Button type="primary"
-                onClick={() => sendLogin()}
-                htmlType='button'
+                htmlType='submit'
                 size="medium"
                 extraClass='mb-20'>
           Войти
@@ -67,7 +67,7 @@ function LoginPage() {
           <p className='text text_type_main-default text_color_inactive'>Вы — новый пользователь? <Link to={'/register'}>Зарегистрироваться</Link></p>
           <p className='text text_type_main-default text_color_inactive'>Забыли пароль? <Link to={'/forgot-password'}>Восстановить пароль</Link></p>
         </div>
-      </div>
+      </form>
   );
 }
 

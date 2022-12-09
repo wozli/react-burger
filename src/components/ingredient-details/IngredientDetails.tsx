@@ -1,23 +1,15 @@
-import React, {useEffect, useMemo, FC} from 'react';
+import React, {useMemo, FC} from 'react';
 import IngredientCharacteristic from "./components/ingredient-characteristic/IngredientCharacteristic";
 import IngredientDetailsStyles from './IngredientDetails.module.scss';
 import {useParams} from "react-router-dom";
-import {getIngredients} from "../../services/slices/ingredients";
-import {useAppSelector, useAppDispatch} from "../../services/hooks";
+import {useAppSelector} from "../../services/hooks";
 import {TIngredient} from "../utils/types";
 
 export const IngredientDetails: FC = () => {
-    const dispatch = useAppDispatch();
     const {ingredientId} = useParams<{ ingredientId: string }>();
     const {ingredients} = useAppSelector(state => state.ingredients);
 
-    useEffect(() => {
-        if (!ingredients.length) {
-            dispatch(getIngredients());
-        }
-    }, []);
-
-    const ingredient: TIngredient | undefined = useMemo(() => ingredients.find((item: TIngredient) => item._id === ingredientId), [ingredients]);
+    const ingredient: TIngredient | undefined = useMemo(() => ingredients.find((item: TIngredient) => item._id === ingredientId), [ingredients, ingredientId]);
 
     if (!ingredient) {
         return <></>;

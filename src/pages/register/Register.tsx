@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import {Link, Redirect, useHistory, useLocation} from 'react-router-dom';
 import {EmailInput, PasswordInput, Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useAppDispatch, useAppSelector} from "../../services/hooks";
@@ -15,7 +15,8 @@ function RegisterPage() {
   const [name, setName] = useState<string>('');
   const {user, userRequest} = useAppSelector(state => state.auth);
 
-  const sendRegister = () => {
+  const sendRegister = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!password || !email || !name) {
       toast.error(TEXT_ERROR_NOT_FILLED_FIELDS, {
         autoClose: 5000,
@@ -50,7 +51,7 @@ function RegisterPage() {
   }
 
   return (
-      <div className='form'>
+      <form className='form' onSubmit={(e) => sendRegister(e)}>
         <h2 className={'text text_type_main-medium mb-6'}>Регистрация</h2>
         <Input type={'text'}
                placeholder={'Имя'}
@@ -68,16 +69,15 @@ function RegisterPage() {
                        extraClass='mb-6'
                        value={password}/>
         <Button type="primary"
-                htmlType='button'
+                htmlType='submit'
                 size="medium"
-                onClick={() => sendRegister()}
                 extraClass='mb-20'>
           Зарегистрироваться
         </Button>
         <div className='form__footer'>
           <p className='text text_type_main-default text_color_inactive'>Уже зарегистрированы? <Link to={'/login'}>Войти</Link></p>
         </div>
-      </div>
+      </form>
   );
 }
 

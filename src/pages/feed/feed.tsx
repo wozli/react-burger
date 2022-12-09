@@ -3,20 +3,15 @@ import FeedStyles from './Feed.module.scss';
 import {useAppDispatch, useAppSelector} from "../../services/hooks";
 import {connect as connectLiveFeed, disconnect as disconnectLiveFeed} from "../../services/live-feed/actions";
 import FeedItem from "../../components/feed-item/FeedItem";
-import {getIngredients} from "../../services/slices/ingredients";
 import FeedInfo from "../../components/feed-info/FeedInfo";
 import {WS_ALL} from "../../components/utils/api";
 
 function FeedPage() {
     const dispatch = useAppDispatch();
     const {feed} = useAppSelector(state => state.feed);
-    const {ingredients} = useAppSelector(state => state.ingredients);
 
-    useEffect((): any => {
+    useEffect(() => {
         dispatch(connectLiveFeed(WS_ALL));
-        if (!ingredients.length) {
-            dispatch(getIngredients());
-        }
         return () => {
             dispatch(disconnectLiveFeed())
         };

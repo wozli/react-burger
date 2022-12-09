@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import {Link, Redirect, useHistory} from 'react-router-dom';
 import {EmailInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -16,7 +16,8 @@ function ForgotPasswordPage() {
   const {user, userRequest} = useAppSelector(state => state.auth);
   const [email, setEmail] = useState<string>('');
 
-  const sendResetPassword = async () => {
+  const sendResetPassword = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!email) {
       toast.error('Ошибка, возможно введен не правильный email!', {
         autoClose: 5000,
@@ -62,7 +63,7 @@ function ForgotPasswordPage() {
   }
 
   return (
-      <div className='form'>
+      <form className='form' onSubmit={(e) => sendResetPassword(e)}>
         <h2 className={'text text_type_main-medium mb-6'}>Восстановление пароля</h2>
         <EmailInput onChange={(e) => setEmail(e.target.value)}
                     name={'email'}
@@ -70,16 +71,15 @@ function ForgotPasswordPage() {
                     extraClass='mb-6'
                     value={email}/>
         <Button type="primary"
-                htmlType='button'
+                htmlType='submit'
                 size="medium"
-                onClick={() => sendResetPassword()}
                 extraClass='mb-20'>
           Восстановить
         </Button>
         <div className='form__footer'>
           <p className='text text_type_main-default text_color_inactive'>Вспомнили пароль? <Link to={'/login'}>Войти</Link></p>
         </div>
-      </div>
+      </form>
   );
 }
 
