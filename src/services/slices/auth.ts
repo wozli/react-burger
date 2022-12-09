@@ -52,6 +52,9 @@ export const getUser = createAsyncThunk(
                         }
                     });
                     return response.data;
+                } else {
+                    deleteCookie('token');
+                    localStorage.removeItem('refreshToken');
                 }
             }
             return rejectWithValue(err.message)
