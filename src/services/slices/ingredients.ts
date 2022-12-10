@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {GET_INGREDIENTS} from "../../components/utils/api";
+import {BASE_URL, GET_INGREDIENTS} from "../../components/utils/api";
 import {TEXT_ERROR_REQUEST} from "../../components/utils/constants";
 import axios from "axios";
 import type {TIngredient} from "../../components/utils/types";
@@ -7,7 +7,7 @@ import type {TIngredient} from "../../components/utils/types";
 export const getIngredients = createAsyncThunk(
     "ingredients/getIngredients",
     async () => {
-      const response = await axios.get<{data: TIngredient[], success: boolean}>(GET_INGREDIENTS);
+      const response = await axios.get<{data: TIngredient[], success: boolean}>(BASE_URL+GET_INGREDIENTS);
       return response.data;
     }
 );

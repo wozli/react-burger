@@ -1,0 +1,9 @@
+.profileOrders {
+  width: 100%;
+
+  &__list {
+    padding-right: 10px;
+    overflow: auto;
+    max-height: calc(100vh - 250px);
+  }
+}

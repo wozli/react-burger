@@ -1,0 +1,13 @@
+export const BASE_URL = 'https://norma.nomoreparties.space/api';
+export const GET_INGREDIENTS = '/ingredients';
+export const POST_ORDER = '/orders';
+export const USER_REGISTER = '/auth/register';
+export const USER_LOGIN = '/auth/login';
+export const USER_LOGOUT = '/auth/logout';
+export const USER_REFRESH_TOKEN = '/auth/token';
+export const GET_USER = '/auth/user';
+export const UPDATE_USER = '/auth/user';
+export const RESET_PASSWORD = '/password-reset';
+export const NEW_PASSWORD = '/password-reset/reset';
+export const WS_ALL = 'wss://norma.nomoreparties.space/orders/all';
+export const WS_PROFILE = 'wss://norma.nomoreparties.space/orders';

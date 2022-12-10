@@ -97,7 +97,7 @@ function BurgerConstructor() {
             <div className={`${BurgerConstructorStyles.list} custom-scroll`}>
               {ingredients.map((item, index) => (
                   <OrderedItem item={item}
-                               key={`${item._id}${index}`}
+                               key={`${item.uuid}`}
                                isBun={false}
                                type={undefined}
                                index={index}

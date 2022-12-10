@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import CategoryItemStyles from "./CategoryItem.module.scss";
 import Title from "../common/title/Title";
 import ProductCard from "../product-card/ProductCard";
-import type {TIngredient} from "../utils/types";
 import type {TIngredientsCategories} from "../utils/types";
 import { DOMAttributes } from "react";
 
@@ -21,7 +20,7 @@ export const CategoryItem: FC<{category:TIngredientsCategories}> = ({category}) 
                classes='mb-6'
                text={category.text}/>
         <div className={CategoryItemStyles.grid}>
-          {category.items.map((product:TIngredient) => (
+          {category.items.map((product) => (
               <ProductCard key={product._id}
                            product={product}/>
           ))}

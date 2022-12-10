@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import {Link, Redirect, useHistory} from 'react-router-dom';
 import {PasswordInput, Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useAppDispatch, useAppSelector} from "../../services/hooks";
@@ -17,7 +17,8 @@ function ResetPasswordPage() {
   const [password, setPassword] = useState<string>('');
   const [token, setToken] = useState<string>('');
 
-  const sendNewPas = () => {
+  const sendNewPas = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!token || !password) {
       toast.error('Ошибка, возможно введен не правильный код или не корректный пароль!', {
         autoClose: 5000,
@@ -71,7 +72,7 @@ function ResetPasswordPage() {
   }
 
   return (
-      <div className='form'>
+      <form className='form' onSubmit={(e) => sendNewPas(e)}>
         <h2 className={'text text_type_main-medium mb-6'}>Восстановление пароля</h2>
         <PasswordInput onChange={(e) => setPassword(e.target.value)}
                        name={'password'}
@@ -86,16 +87,15 @@ function ResetPasswordPage() {
                name={'token'}
                size={'default'}/>
         <Button type="primary"
-                htmlType='button'
+                htmlType='submit'
                 size="medium"
-                onClick={() => sendNewPas()}
                 extraClass='mb-20'>
           Сохранить
         </Button>
         <div className='form__footer'>
           <p className='text text_type_main-default text_color_inactive'>Вспомнили пароль? <Link to={'/login'}>Войти</Link></p>
         </div>
-      </div>
+      </form>
   );
 }
 

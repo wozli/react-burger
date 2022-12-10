@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import ProfileFormStyles from './ProfileForm.module.scss'
 import {EmailInput, Input, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {fulfilledAuth, pendingAuth, rejectedAuth, setUser, updateLogin} from "../../services/slices/auth";
@@ -26,7 +26,8 @@ function ProfileForm() {
     setPassword('');
   }
 
-  const saveUserInfo = () => {
+  const saveUserInfo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if ((!password && isPasChanged) || !email || !name) {
       toast.error(TEXT_ERROR_NOT_FILLED_FIELDS, {
         autoClose: 5000,
@@ -62,7 +63,7 @@ function ProfileForm() {
   };
 
   return (
-      <>
+      <form onSubmit={(e) => saveUserInfo(e)}>
         <Input type={'text'}
                placeholder={'Имя'}
                onChange={e => setName(e.target.value)}
@@ -87,14 +88,13 @@ function ProfileForm() {
                 Отменить
               </Button>
               <Button type="primary"
-                      onClick={() => saveUserInfo()}
                       size="medium"
-                      htmlType={"button"}>
+                      htmlType={"submit"}>
                 Сохранить
               </Button>
             </div>
         )}
-      </>
+      </form>
   );
 }
 

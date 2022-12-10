@@ -1,19 +1,13 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import BurgerIngredients from "../../components/burger-ingredients/BurgerIngredients";
 import BurgerConstructor from "../../components/burger-constructor/BurgerConstructor";
 import ConstructorStyles from './Constructor.module.scss';
-import {getIngredients} from "../../services/slices/ingredients";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useAppSelector} from "../../services/hooks";
 
 function ConstructorPage() {
-  const dispatch = useAppDispatch();
   const {ingredients} = useAppSelector(state => state.ingredients);
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
 
   return (
       <>

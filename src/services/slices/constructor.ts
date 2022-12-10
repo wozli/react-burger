@@ -1,9 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {TYPE_INGREDIENTS} from "../../components/utils/constants";
 import type {TIngredient} from "../../components/utils/types";
+import { v4 as uuidv4 } from 'uuid';
+
+type TSelectIngredient = TIngredient & {uuid:string};
 
 type TInitialState = {
-  ingredients: TIngredient[],
+  ingredients: TSelectIngredient[],
   bun: TIngredient | null,
   totalPrice: number
 }
@@ -25,7 +28,7 @@ export const constructorSlice = createSlice({
         }
         state.bun = payload;
       } else {
-        state.ingredients = [...state.ingredients, payload];
+        state.ingredients = [...state.ingredients, {...payload, uuid: uuidv4()}];
       }
       state.totalPrice = state.totalPrice + (payload.type === TYPE_INGREDIENTS.BUN ? payload.price * 2 : payload.price);
     },
