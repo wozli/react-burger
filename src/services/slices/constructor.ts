@@ -43,4 +43,5 @@ export const constructorSlice = createSlice({
   },
 })
 
-export const { addCartIngredient, deleteCartIngredient, updateListIngredients, resetCart } = constructorSlice.actions
+export const { addCartIngredient, deleteCartIngredient, updateListIngredients, resetCart } = constructorSlice.actions;
+export default constructorSlice.reducer;

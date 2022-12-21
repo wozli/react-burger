@@ -122,7 +122,7 @@ function App() {
 
     return (
         <div className={AppStyles.wrapper}>
-            <Router>
+            <Router basename={'/react-burger'}>
                 <React.StrictMode>
                     <ModalSwitch/>
                 </React.StrictMode>

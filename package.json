@@ -2,10 +2,10 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.62",
@@ -41,12 +41,20 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "/node_modules/.bin/cypress open",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "postbuild": "cp build/index.html build/404.html"
   },
   "eslintConfig": {
+    "plugins": [
+      "cypress"
+    ],
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:cypress/recommended"
     ]
   },
   "browserslist": {
@@ -62,9 +70,15 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^13.4.0",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-scroll": "^1.8.5",
     "@types/redux-logger": "^3.0.9",
-    "@types/uuid": "^9.0.0"
+    "@types/uuid": "^9.0.0",
+    "cypress": "^12.2.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "gh-pages": "^4.0.0",
+    "react-test-renderer": "^18.2.0",
+    "redux-mock-store": "^1.5.4"
   }
 }
