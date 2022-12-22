@@ -1,4 +1,4 @@
-import reducer, {addCartIngredient, deleteCartIngredient} from "../constructor";
+import reducer, {addCartIngredient, deleteCartIngredient, updateListIngredients, resetCart} from "../constructor";
 
 describe('test constructor reducers', () => {
   const bun = {
@@ -13,6 +13,21 @@ describe('test constructor reducers', () => {
     "image": "https://code.s3.yandex.net/react/code/bun-02.png",
     "image_mobile": "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
     "image_large": "https://code.s3.yandex.net/react/code/bun-02-large.png",
+    "__v": 0
+  };
+
+  const bun2 = {
+    "_id": "60d3b41abdacab0026a733c7",
+    "name": "Флюоресцентная булка R2-D3",
+    "type": "bun",
+    "proteins": 44,
+    "fat": 26,
+    "carbohydrates": 85,
+    "calories": 643,
+    "price": 988,
+    "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+    "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+    "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
     "__v": 0
   };
 
@@ -43,6 +58,16 @@ describe('test constructor reducers', () => {
       bun: bun,
       totalPrice: 1600
     });
+
+    expect(reducer({
+      ingredients: [],
+      bun: bun,
+      totalPrice: 1600
+    }, addCartIngredient(bun2))).toEqual({
+      ingredients: [],
+      bun: bun2,
+      totalPrice: 1976
+    });
   })
 
   it('test addCartIngredient ingredient', () => {
@@ -64,6 +89,22 @@ describe('test constructor reducers', () => {
       ingredients: [ingredient],
       bun: null,
       totalPrice: 900
+    });
+  })
+
+  it('test updateListIngredients', () => {
+    expect(reducer(initialState, updateListIngredients([ingredient, ingredient, ingredient]))).toEqual({
+      ingredients: [ingredient, ingredient, ingredient],
+      bun: null,
+      totalPrice: 0
+    });
+  })
+
+  it('test resetCart', () => {
+    expect(reducer(initialState, resetCart())).toEqual({
+      ingredients: [],
+      bun: null,
+      totalPrice: 0
     });
   })
 })
