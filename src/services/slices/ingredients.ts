@@ -60,4 +60,5 @@ export const ingredientsSlice = createSlice({
   },
 });
 
-export const { closeModalIngredient, setCurrentIngredient } = ingredientsSlice.actions
+export const { closeModalIngredient, setCurrentIngredient } = ingredientsSlice.actions;
+export default ingredientsSlice.reducer;

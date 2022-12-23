@@ -11,13 +11,14 @@ import {wsActions} from "./services/live-feed/actions";
 import App from './components/app/App';
 import reportWebVitals from './reportWebVitals';
 
-const rootElement = document.getElementById('root');
+//тесты без document.createElement('div') незапускаются
+const rootElement = document.getElementById('root') || document.createElement('div');
 if (!rootElement) throw new Error('Failed to find the root element');
 const root = ReactDOM.createRoot(rootElement);
 
 const websocketMiddleware = createSocketMiddleware(wsActions);
 
-const store = configureStore({
+export const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(logger, thunk, websocketMiddleware),

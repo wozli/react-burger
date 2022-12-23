@@ -13,7 +13,7 @@ import {toast} from 'react-toastify';
 import {TNewInfo,TUser} from "../../components/utils/types";
 import axios from "axios";
 
-const saveTokens = (refreshToken: string, accessToken: string) => {
+export const saveTokens = (refreshToken: string, accessToken: string) => {
     setCookie('token', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
 }
@@ -210,4 +210,5 @@ export const {
     fulfilledAuth,
     setUser,
     changeAccessPageResetPas
-} = authSlice.actions
+} = authSlice.actions;
+export default authSlice.reducer;

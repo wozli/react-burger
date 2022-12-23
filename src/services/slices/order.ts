@@ -54,9 +54,12 @@ export const orderSlice = createSlice({
         builder.addCase(getOrderInfo.rejected, (state) => {
             state.orderRequest = false;
             state.orderFailed = true;
+            state.openModalOrder = false;
+            state.order = null;
             alert(TEXT_ERROR_REQUEST);
         })
     },
 });
 
-export const {resetOrder} = orderSlice.actions
+export const {resetOrder} = orderSlice.actions;
+export default orderSlice.reducer;
